@@ -17,5 +17,5 @@ sympy is needed to calculate the propagation law calculaion. You can install it 
 > If you are using mobile devices that are't capable of installing the modules, you can use v1.0 instead, which only supports 8 steps.
 ----
 Written in python.
-# Support or buy me a coffee
-
+### Support or buy me a coffee
+Ethereum:0xBD3bC7E685460c9C4f3CB84800f33655fF9927f1
