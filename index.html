@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.1/core.css">
+    <script async type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <script type="javascript" src="script.js"></script>
+    
+    <!--for development purpose-->
+    <!--<script src="https://cdn.tailwindcss.com"></script>-->
+    <script type="py" config='{"packages":["sympy"]}' src="datahandler.py" worker terminal></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics experiment calculator</title>
+</head>
+<body class="bg-slate-200 dark:bg-gray-900">
+    <div class="h-14 bg-gradient-to-r from-cyan-500 to-blue-500 text-left  text-3xl  bg-clip-text  text-transparent  transition  easy-in-out  translate-x-1" >
+          
+          Physics  Calculator
+
+    </div>
+
+    <div class="text-xl  text-center  text-grey-300 font-serif">An 8-step-experiment  calculator</div>
+
+            <div class="flex items-center justify-center"> 
+                <h5 class="font-serif">Input your experiment data in the box below.Seperate the data with half-width semicolon(;).</h5></div>
+    </div>
+
+    <form  action = "#" id="dataform">
+        <div class="block">
+            <label for="distribution">Distribution</label>
+            <br>
+            <select id="distribution" name="distribution">
+                <option>--Choose Distribution--</option>
+                <option  value="even">Evenly distributed</option>  
+                <option value="normal">Normal distribution(Gaussian)</option>  
+            </select>
+        </div>
+        <div class="block">
+        <label for="confidence">Confidence Interval</label>
+        <br>    
+            <select id="confidence">
+                <option>--Choose Confidence Interval--</option>
+                <option value=0.683>0.683</option>
+                <option value=0.95>0.95</option>
+            </select>
+        </div>
+        <div class="block">
+        <label for="uncertainty">Uncertainty measurement of typeB</label>
+        <br>
+            <input placeholder="Input here..." class="border-solid border-indigo-500" id="uncertainty">
+        </div>
+        <div class="block">
+            <label for="input_data">Data(seperate with ;)</label>
+            <br>            
+            <input placeholder="input  your  data"  id="input_data">
+            </div>
+            <div class="flex items-center justify-end px-6">
+                <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white rounded border-blue-500 border-solid hover:border-transparent py-2 px-4" type="submit">Submit</button>
+            </div>
+            </form> 
+              
+    </div>
+    <div class="flex items-stretch justify-center">
+        <code id="result"></code>
+    </div>
+    <div class="flex items-center justify-end px-4 py-1">
+    <button class="bg-transparent hover:bg-slate-400 rounded px-2 py-2" id="toggle">Day/night</button>
+    </div>
+    <div class="flex items-stretch"><code id="output" class="flex items-center"></code></div>
+    <div class="flex text-xs text-gray-700 text-center">Build with Vercel.Speed and performance by Cloudflare.</div>
+
+
+</body>
+</html>
