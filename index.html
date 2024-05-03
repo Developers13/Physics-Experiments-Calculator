@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--for development purpose-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PyScript CSS -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.2/core.css">
+
+    <!-- This script tag bootstraps PyScript -->
+    <script type="module" src="https://pyscript.net/releases/2024.4.2/core.js"></script><!-- PyScript CSS -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.2/core.css">
+
+    <!-- This script tag bootstraps PyScript -->
+    <script type="module" src="https://pyscript.net/releases/2024.4.2/core.js"></script>
+
+        <noscript>
+            This  web  page  need  JavaScript (along  with  PyScript) to be  enabled.
+        </noscript>
+                <script  type="py"  src="main.py"  config="pyscript.json"></script>
+    <title>Calc8</title>
+  </head>
+  <body class="bg-gray-400 dark:bg-gray-900">
+
+        <script>
+            var  pt=document.querySelector('#phead')
+
+var  p=document.querySelector('#prompt')
+
+var  pc=document.querySelector('#pcontent')
+
+addEventListener('py:ready',  function () =>{
+    p.setAttribute('class',  'bg-green-500  bg-opacity-50 my-4  mx-3  p-2 rounded-sm  shadow-sm')
+
+    pt.innerText='All set!'
+
+    pc.innerHTML='<code>EventListener</code> has listened the <code> py:ready</code> event.  <br/>  You are ready to go!'
+
+
+})
+
+
+
+        </script>
+
+    <div id="bar" class="py-3  px-4 m-2  rounded-md bg-transparent   sticky "> 
+          
+        <div class="bg-clip-text  text-2xl text-transparent bg-gradient-to-r  from-purple-600 to-cyan-600 "  id="title"> Physics Calculator <div class="text-sm inline-block  font-light "> 
+        
+        </div></div>
+        </div>
+        
+    
+
+    <div class="container  m-2 rounded-md  shadow-md  p-3  bg-slate-200 ">
+      
+      <div class="text-3xl  my-3">  Data  Config</div>
+
+      <form  action = "#" id="dataform">
+        <div class="block">
+            <label for="distribution">Distribution</label>
+            <br>
+            <select id="distribution" name="distribution">
+                <option>--Choose Distribution--</option>
+                <option  value="even">Evenly distributed</option>  
+                <option value="normal">Normal distribution(Gaussian)</option>  
+            </select>
+        </div>
+        <div class="block">
+        <label for="confidence">Confidence Interval</label>
+        <br>    
+            <select id="confidence">
+                <option>--Choose Confidence Interval--</option>
+                <option value=0.683>0.683</option>
+                <option value=0.95>0.95</option>
+            </select>
+        </div>
+        <div class="block">
+        <label for="uncertainty">Uncertainty measurement of typeB</label>
+        <br>
+            <textarea  placeholder="Input here..." class="caret-red-500    border-solid " id="uncertainty">
+
+            </textarea> 
+        </div>
+        <div class="block">
+            <label for="input">Data(seperate with ;)</label>
+            <br>            
+            <textarea class="caret-green-500  "  id="input"></textarea>  
+            </div>
+        </form> 
+        <div class="flex  justify-evenly  "> 
+        <button class="bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition  "  id="submit">Submit</button> 
+
+        <button   class="bg-transparent hover:bg-gray-700 hover:scale-110 rounded-full  px-2  py-1  my-2  transition  "  id="clear"  onclick="clear()">Clear</button> 
+
+        </div>   
+    </div>
+
+    <div class="font-extralight text-gray-400 text-center ">Built  with  Vercel;Performance  and  security  by  Cloudflare.  </div>
+
+    <div id="prompt"  class="bg-yellow-500  bg-opacity-50 my-4  mx-3  p-2 rounded-sm  shadow-sm   ">
+      <div class="font-light  text-lg "  id="phead">Attention! </div>
+
+      <div id="pcontent"  class="font-extralight  ">Please  wait  for  PyScript  fully  loaded!
+        
+         </div>
+       </div>
+
+   
+  </body>
+</html>
+
