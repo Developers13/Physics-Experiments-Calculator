@@ -1,6 +1,6 @@
 ### A calculator for 8 steps calculation of physics experiment
 
-
+Now support:
 - [x] Average
 - [x] Deviation
 - [x] Standard Deviation
@@ -8,7 +8,9 @@
 - [x] Type A, B of Uncertainty
 - [x] Mobile friendly
 - [x] Adjust properties manually
-- [ ] _Propagation of uncertainty(Future)_
+- [x] Propagation of uncertainty(CLI)
+
+🎉Web version is now online. You can visit https://calc.cryste.site and enjoy a calculator with an elegant web UI.
 
 sympy is needed to calculate the propagation law calculaion. You can install it by executing:
 
