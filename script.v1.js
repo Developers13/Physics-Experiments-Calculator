@@ -18,12 +18,7 @@ addEventListener("mpy:ready", function () {
   pc.innerText = "PyScript is ready.You are ready to go!";
 });
 //Prevent Default
-if (confidence.value !== "default" && distribution.value !== "default") {
-  submit.setAttribute("class",
-    "cursor-pointer bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition "
-  );
-  submit.removeAttribute('disabled')
-};
+
 
 //Clear button
 
@@ -40,15 +35,18 @@ submit.addEventListener("click", function () {
     "cursor-progress bg-indigo-300  rounded-full px-2 py-1 my-2 transition"
   );
 
-  setTimeout(() => (submit.innerText = "Processing..."), 500);
-  setTimeout(() => {(submit.innerText="Submit"),1500;
-  submit.setAttribute(
-    "class",
-    "cursor-pointer bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition 3s"
-  );
-  })
-});
+  setTimeout(() => (submit.innerText = "Processing..."), 500);})
+while (submit.innerHTML="Processing") {
+    
+      setTimeout(function(){submit.innerText="Submit";
+    submit.setAttribute(
+      "class",
+      "cursor-pointer bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition 3s"
+    )},1500);
+    
+  }
+  
+
 
 
 //test
-

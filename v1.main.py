@@ -95,7 +95,7 @@ class dataset:
         return self.standardError()/m.sqrt(len(self.org))
     def UncertaintyB(self):
         if self.distribution=='Gaussian':
-            return self.inherientError/3*self.standardError()
+            return self.inherientError/3
         else:
             return self.inherientError/1.46
 def recalculate(data):
@@ -121,6 +121,7 @@ def show(message):
 #main
 #use pyscript to retrieve the data from the sheet
 def master(event):
+    event.preventDefault()
     class prop:
         def __init__(self,form):
             self.form=form
@@ -130,7 +131,7 @@ def master(event):
             self.org_data=''
     exp_prop=prop(document.querySelector('#dataform'))
     
-        #event.preventDefault()
+    #event.preventDefault()
     exp_prop.dist=(document.querySelector('#distribution').value)
     exp_prop.conf=float(document.querySelector('#confidence').value)
     exp_prop.uncer=float(document.querySelector('#uncertainty').value)
