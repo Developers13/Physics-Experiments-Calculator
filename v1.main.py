@@ -1,6 +1,7 @@
 import math as m
 from pyscript import document
-tp=[0,0,0,1.32,1.20,1.14,1.11,1.09,1.08,1.07,1.06,1.06,1.05,1.04,1.03,1.02,1.00]
+tp1=[0,0,0,1.32,1.20,1.14,1.11,1.09,1.08,1.07,1.06,1.05,1.04,1.03,1.02,1.00]
+tp2=[0,0,0,4.30,3.18,2.78,2,57,2.45,2.36,2.31,2.26,2.23,2.13,2.09,2.04,1.96]
 def mean(data):
     _sum=0
     for x in data:
@@ -11,7 +12,7 @@ class dataset:
 
     def __init__(self,org):
         self.distribution='uniform'
-        self.trust_level=0.683
+        self.confidence=0.683
         self.org=org
         self.accuracy=2
         self.bvkey=[]
@@ -30,7 +31,36 @@ class dataset:
         for i in range(len(self.avgDeviation(self.org))):
             square_sum+=self.avgDeviation(self.org)[i]**2
         #here might be wrong....
-        result=tp[len(self.org)]*m.sqrt(square_sum/(len(self.org)))
+        if len(self.org)<=10:
+            if self.confidence==0.683:
+                result=tp1[len(self.org)]*m.sqrt(square_sum/(len(self.org)))
+            else:
+                result=tp2[len(self.org)]*m.sqrt(square_sum/(len(self.org)))
+        elif(10<len(self.org)<=15):
+            if self.confidence==0.683:
+                result=1.05*m.sqrt(square_sum/(len(self.org)))
+            else:
+                result=2.23*m.sqrt(square_sum/(len(self.org)))
+        elif(15<len(self.org)<=20):
+            if self.confidence==0.683:
+                result=1.04*m.sqrt(square_sum/(len(self.org)))
+            else:
+                result=2.13*m.sqrt(square_sum/(len(self.org)))
+        elif(20<len(self.org)<=30):
+            if self.confidence==0.683:
+                result=1.03*m.sqrt(square_sum/(len(self.org)))
+            else:
+                result=2.09*m.sqrt(square_sum/(len(self.org)))
+        elif(30<len(self.org)<=50):
+            if self.confidence==0.683:
+                result=1.02*m.sqrt(square_sum/(len(self.org)))
+            else:
+                result=2.04*m.sqrt(square_sum/(len(self.org)))
+        else:
+            if self.confidence==0.683:
+                result=1.00*m.sqrt(square_sum/(len(self.org)))
+            else:
+                result=1.96*m.sqrt(square_sum/(len(self.org)))
         #--
         return result
 
@@ -52,20 +82,15 @@ class dataset:
 
     def removeBadValue(self,org):
         if len(self.bvkey) != 0:
-            for j in range(len(self.bvkey)):
-                print('Removed bad value:Number %d Value %d in original list' %(self.bvkey[j],org[self.bvkey[j]]))
-                org.pop(self.bvkey[j])
+            for x in self.bvkey:
+                show(f'Removed bad value:Number {x+1} Value {org[x]} in original list')
+                org.pop(x)
+                self.bvkey.remove(x)
             else:
-                org=recalculate(org)
-                print('Completed.Recalulate:')
-                print('Average:', self.avg())
-
-                print('Deviation \n', self.avgDeviation(org))
-
-                print('Standard Error :', self.standardError())
-                print()
+                return org
         else:
-            print('No bad values. Pass')   
+            show('No bad values. Pass')
+            return 0 
     def UncertaintyA(self):
         return self.standardError()/m.sqrt(len(self.org))
     def UncertaintyB(self):
@@ -80,7 +105,8 @@ def recalculate(data):
         return data
     else:
         return data
-
+def show(message):
+    document.querySelector('#part2').innerText=message
 ####################################
 #Part2 the propagation of uncertainty
         
@@ -112,7 +138,9 @@ def master(event):
         
 
     def  splitdata(data):
-        return  str(data).split(';')
+        _data=str(data).split(';')
+        _data=[float(x) for x in _data] 
+        return _data
 
 
 
@@ -123,8 +151,11 @@ def master(event):
     l=len(org_data)
     global data_set
     data_set=dataset(org_data)
-    data_set.checkBadValue(org_data)
-    data_set.removeBadValue(org_data)
+    while(data_set.removeBadValue(org_data)!=0):
+        org_data=data_set.removeBadValue(org_data)
+        data_set.checkBadValue(org_data)
+
+    
     #write the result into the html with pyscript
     def post_process():
         res_average=mean(org_data)
@@ -138,6 +169,7 @@ def master(event):
 
             
     post_process()
-
-    document.querySelector("#output").innerText=p
+    
+        
+    document.querySelector("#part1").innerText=p
     ################################################################

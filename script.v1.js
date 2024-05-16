@@ -3,10 +3,10 @@ const p = document.querySelector("#prompt");
 const ph = document.querySelector("#phead");
 const pc = document.querySelector("#pcontent");
 const submit = document.querySelector("#submit");
+const confidence= document.getElementById("confidence");
+const distribution = document.getElementById("distribution");
 addEventListener("mpy:ready", function () {
-  document
-    .querySelector("#submit")
-    .setAttribute(
+  submit.setAttribute(
       "class",
       "cursor-pointer bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition "
     );
@@ -16,11 +16,15 @@ addEventListener("mpy:ready", function () {
   );
   ph.innerText = "You are all set!";
   pc.innerText = "PyScript is ready.You are ready to go!";
-  submit.setAttribute(
-    "class",
-    "cursor-pointer bg-blue-300  rounded-full px-2 py-1 my-2 transition"
-  )
 });
+//Prevent Default
+if (confidence.value !== "default" && distribution.value !== "default") {
+  submit.setAttribute("class",
+    "cursor-pointer bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition "
+  );
+  submit.removeAttribute('disabled')
+};
+
 //Clear button
 
   document.querySelector("#clear").addEventListener("click", function () {
@@ -37,13 +41,14 @@ submit.addEventListener("click", function () {
   );
 
   setTimeout(() => (submit.innerText = "Processing..."), 500);
-});
-addEventListener("mpy:done", function () {
+  setTimeout(() => {(submit.innerText="Submit"),1500;
   submit.setAttribute(
     "class",
-    "cursor-pointer bg-blue-300  rounded-full px-2 py-1 my-2 transition"
-  )
+    "cursor-pointer bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition 3s"
+  );
+  })
 });
+
 
 //test
 

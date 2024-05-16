@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--Bing webmaster and Clarity tool-->
     <meta name="msvalidate.01" content="51ED9A709DD0F7C9699CE7B8FB3FB74F" />
-    <script type="text/javascript">
+    <script type="text/javascript" async>
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -16,10 +16,10 @@
     <!--for development purpose-->
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <!-- PyScript CSS -->
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.2/core.css">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.2/core.css" async>
 
     <!-- This script tag bootstraps PyScript -->
-    <script type="module" src="https://pyscript.net/releases/2024.4.2/core.js"></script>
+    <script type="module" src="https://pyscript.net/releases/2024.4.2/core.js" async></script>
     
     <script type='text/JavaScript' src="script.v1.js" defer></script>
     <link rel="stylesheet" href="output.css">
@@ -66,7 +66,7 @@
       <label for="distribution">Distribution</label>
       <br>
       <select id="distribution" name="distribution">
-        <option>--Choose Distribution--</option>
+        <option value="default">--Choose Distribution--</option>
         <option value="even">Evenly distributed</option>
         <option value="normal">Normal distribution(Gaussian)</option>
       </select>
@@ -75,7 +75,7 @@
       <label for="confidence">Confidence Interval</label>
       <br>
       <select id="confidence">
-        <option>--Choose Confidence Interval--</option>
+        <option value="default">--Choose Confidence Interval--</option>
         <option value=0.683>0.683</option>
         <option value=0.95>0.95</option>
       </select>
@@ -83,19 +83,19 @@
     <div class="block">
       <label for="uncertainty">Uncertainty measurement of typeB</label>
       <br>
-      <textarea placeholder="Input here..." class="caret-red-500    border-solid " id="uncertainty">
+      <textarea required class="caret-red-500    border-solid " id="uncertainty">
 
             </textarea>
     </div>
     <div class="block">
       <label for="input">Data(seperate with ;)</label>
       <br>
-      <textarea class="caret-green-500  " id="input"></textarea>
+      <textarea class="caret-green-500  " id="input" required></textarea>
     </div>
   </form>
   <div class="flex  justify-evenly  ">
     <!--Change the cursur-pointer into cursor-not-allowed in production-->
-    <button class="cursor-disabled bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition  " id="submit" mpy-click="master">
+    <button class="cursor-pointer bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition  " id="submit" mpy-click="master" disabled>
       Submit
     </button>
 
@@ -112,7 +112,10 @@
   <div id="pcontent" class="font-extralight  ">Please wait for PyScript fully loaded! You can press F12 and open Developer tools to view the progress.</div>
 
 </div>
-      <div id='output' class='block m-3'></div>
+      <div id='output' class='block m-3'>
+        <div id="part1"></div>
+        <div id="part2"></div>
+      </div>
 <div id="tail" class='bg-black  dark:bg-gray-100  shadow-md  p-8  m-0  font-light  text-sm text-white dark:text-black no-underline'>
 
   <ul>
@@ -121,9 +124,10 @@
 
     <li id='license'><a href='#'>GNU License</a></li>
 
-    <li id='donation'><a href='#'>Donation</a></li>
+    <li id='donation'><a href='donate.html'>Donation</a></li>
 
     <li id='git'><a href='https://github.com/Developers13/Physics-Experiments-Calculator'>GitHub</a></li>
+    <li><a href="v2.html"><div id="entry" class="text-transparent bg-clip-text absolute bg-gradient-to-tr from-gray-500 to-[#ffdf00] ">Go to Calc8 v2</div></a></li>
   </ul>
 
   <div class='flex  justify-center  items-center  text-xs'>Powered by PyScript and MicroPython</div>
@@ -134,4 +138,3 @@
    
   </body>
 </html>
-

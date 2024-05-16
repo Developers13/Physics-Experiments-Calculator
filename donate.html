@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--For development use-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript">
+        const envelop=document.querySelector('#envelop-img');
+        const eth_addr=document.querySelector('#eth-addr');
+        var form=document.querySelector("#method");
+        
+    </script>
+    <title>Donation</title>
+</head>
+<body>
+    <div id="main" class="bg-slate-50 dark:bg-black flex items-center justify-center">
+        <form id="method">
+        <div class="block"><label for="donation" class="has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:ring-indigo-200" id="alipay">
+            <img src="alipay-svgrepo-com.svg" class="bg-indigo-100" alt="alipay" width="20" height="20" >Alipay
+            <input type="radio" class="checked:border-indigo-300" name="donation" value="alipay" checked>
+            <img src="ethereum-svgrepo-com.svg" class="bg-indigo-100" alt="eth" width="20" height="20">Ethereum
+            <input type="radio" class="checked:border-indigo-300 " name="donation" value="eth">
+        </label>
+        </div>
+        </form>
+        <div class="hidden" id="envelop-img">
+            <img src="alipay-envelop.jpg">
+        </div>
+        <div class="hidden" id="eth-addr"></div>
+        </div>
+    </div>
+</body>
+</html>
