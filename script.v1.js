@@ -36,15 +36,6 @@ submit.addEventListener("click", function () {
   );
 
   setTimeout(() => (submit.innerText = "Processing..."), 500);})
-while (submit.innerHTML="Processing") {
-    
-      setTimeout(function(){submit.innerText="Submit";
-    submit.setAttribute(
-      "class",
-      "cursor-pointer bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition 3s"
-    )},1500);
-    
-  }
   
 
 
