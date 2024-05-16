@@ -41,26 +41,6 @@ class dataset:
                 result=1.05*m.sqrt(square_sum/(len(self.org)))
             else:
                 result=2.23*m.sqrt(square_sum/(len(self.org)))
-        elif(15<len(self.org)<=20):
-            if self.confidence==0.683:
-                result=1.04*m.sqrt(square_sum/(len(self.org)))
-            else:
-                result=2.13*m.sqrt(square_sum/(len(self.org)))
-        elif(20<len(self.org)<=30):
-            if self.confidence==0.683:
-                result=1.03*m.sqrt(square_sum/(len(self.org)))
-            else:
-                result=2.09*m.sqrt(square_sum/(len(self.org)))
-        elif(30<len(self.org)<=50):
-            if self.confidence==0.683:
-                result=1.02*m.sqrt(square_sum/(len(self.org)))
-            else:
-                result=2.04*m.sqrt(square_sum/(len(self.org)))
-        else:
-            if self.confidence==0.683:
-                result=1.00*m.sqrt(square_sum/(len(self.org)))
-            else:
-                result=1.96*m.sqrt(square_sum/(len(self.org)))
         #--
         return result
 
