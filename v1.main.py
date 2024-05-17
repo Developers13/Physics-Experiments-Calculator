@@ -125,7 +125,7 @@ def master(event):
     class prop:
         def __init__(self,form):
             self.form=form
-            self.dist=0
+            self.dist=''
             self.conf=0
             self.uncer=0.0
             self.org_data=''
@@ -152,6 +152,10 @@ def master(event):
     l=len(org_data)
     global data_set
     data_set=dataset(org_data)
+    if exp_prop.dist=='normal':
+        data_set.distribution='Gaussian'
+    data_set.confidence=exp_prop.conf
+    data_set.inherientError=exp_prop.uncer
     while(data_set.removeBadValue(org_data)!=0):
         org_data=data_set.removeBadValue(org_data)
         data_set.checkBadValue(org_data)
