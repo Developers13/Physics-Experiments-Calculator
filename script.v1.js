@@ -12,10 +12,11 @@ addEventListener("mpy:ready", function () {
     );
   p.setAttribute(
     "class",
-    "bg-green-500  bg-opacity-50 my-4  mx-3  p-2 rounded-sm  shadow-sm "
+    "bg-green-500  bg-opacity-50 my-4  mx-3  p-2 rounded-sm  shadow-sm transition-all "
   );
+  
   ph.innerText = "You are all set!";
-  pc.innerText = "PyScript is ready.You are ready to go!";
+  pc.innerHTML = "<code>py:ready</code> has triggered.You are ready to go!";
 });
 //Prevent Default
 
@@ -36,6 +37,7 @@ submit.addEventListener("click", function () {
   );
 
   setTimeout(() => (submit.innerText = "Processing..."), 500);})
+
   
 
 
