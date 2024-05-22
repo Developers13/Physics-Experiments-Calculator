@@ -61,16 +61,16 @@
 
   <form action="#" id="dataform">
     <div class="block">
-      <label for="distribution">Distribution</label>
+      <label for="distribution">Distribution数据分布</label>
       <br>
       <select id="distribution" name="distribution">
         <option value="default">--Choose Distribution--</option>
-        <option value="even">Evenly distributed</option>
-        <option value="normal">Normal distribution(Gaussian)</option>
+        <option value="even">Evenly distributed平均分布</option>
+        <option value="normal">Normal distribution(Gaussian)正态分布</option>
       </select>
     </div>
     <div class="block">
-      <label for="confidence">Confidence Interval</label>
+      <label for="confidence">Confidence Interval置信区间</label>
       <br>
       <select id="confidence">
         <option value="default">--Choose Confidence Interval--</option>
@@ -79,14 +79,14 @@
       </select>
     </div>
     <div class="block">
-      <label for="uncertainty">Uncertainty measurement of typeB</label>
+      <label for="uncertainty">Uncertainty measurement of typeB 实验仪器的不确定度</label>
       <br>
       <textarea required class="caret-red-500    border-solid " id="uncertainty">
 
             </textarea>
     </div>
     <div class="block">
-      <label for="input">Data(seperate with ;)</label>
+      <label for="input">Data(seperate with ;)数据（用半角分号分割）</label>
       <br>
       <textarea class="caret-green-500  " id="input" required></textarea>
     </div>
@@ -107,7 +107,7 @@
 <div id="prompt" class="bg-yellow-500  bg-opacity-50 my-4  mx-3  p-2 rounded-sm  shadow-sm  transition-all  ">
   <div class="font-light  text-lg " id="phead">Attention! </div>
 
-  <div id="pcontent" class="font-extralight">Please wait until PyScript fully loaded! You can press F12 and open Developer tools to view the progress.</div>
+  <div id="pcontent" class="font-extralight">Please wait until PyScript fully loaded! You can press F12 and open Developer tools to view the progress.<br/>请等待PyScript完全加载。如果此窗口一直出现，请尝试更换浏览器，或检查网络设置。</div>
 
 </div>
       <div id='output' class='block m-3'><code>
@@ -134,4 +134,5 @@
 </div>
 
    
- 
+  </body>
+</html>
