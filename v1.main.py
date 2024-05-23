@@ -139,7 +139,7 @@ def master(event):
         
 
     def  splitdata(data):
-        _data=str(data).split(';')
+        _data=str(data).split(' ')
         _data=[float(x) for x in _data] 
         return _data
 
