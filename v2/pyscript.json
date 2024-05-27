@@ -1,0 +1,4 @@
+{
+    "packages":["sympy"],
+    "sync_main_only":true
+}
