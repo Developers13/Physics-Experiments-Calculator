@@ -26,6 +26,7 @@ addEventListener("mpy:ready", function () {
   const removePrompt=setTimeout(()=>{p.remove();},6500);
   clearTimeout(removePrompt);
   clearTimeout(transition);
+});
 //Out Transition
 
 
