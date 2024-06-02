@@ -67,11 +67,14 @@ submit.addEventListener("click",()=>{
       timebar.classList.add("w-full");
       const vanishTimeout=setTimeout(()=>{
         errorboxcollection[errorboxcollection.length-1].remove();
-      },3100);
+      },5100);
       const timebarTransition=setTimeout(()=>{
-        timebar.style.transition="all linear 3s";
-        timebar.style.width=0;
-      });
+        timebar.style.transition="all linear 5s";
+        timebar.classList.remove('w-full');
+        timebar.classList.add('w-0');
+        clearTimeout(timebarTransition);
+      },0);
+      setTimeout(()=>{timebar.removeAttribute("style");},5500);
     }
   };
   
