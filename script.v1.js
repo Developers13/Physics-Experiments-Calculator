@@ -18,8 +18,16 @@ addEventListener("mpy:ready", function () {
   
   ph.innerText = "You are all set!";
   pc.innerHTML = "<code>py:ready</code> has triggered.You are ready to go!";
-});
-//Prevent Default
+  
+  const transition=setTimeout(function(){
+    p.style.transition="all 3s";
+    p.style.opacity=0;
+},3000);
+  const removePrompt=setTimeout(()=>{p.remove();},6500);
+  clearTimeout(removePrompt);
+  clearTimeout(transition);
+//Out Transition
+
 
 
 //Clear button
