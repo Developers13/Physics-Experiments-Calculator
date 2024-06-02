@@ -15,7 +15,7 @@
 
 
 <!-- PROJECT LOGO -->
-<img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/calculator-one-svgrepo-com.svg' alt='logo' width=80 height=80>
+<img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/calculator-one-svgrepo-com.svg' alt='logo' width=80 height=80 align=center>
 <br />
 
   <h3 align="center">大学物理实验八步法计算器</h3>
@@ -115,7 +115,8 @@ Tailwindcss 3.4.1
 
 ### 捐赠
 Ethereum:0xE25926d3Df559016eA45552780Eb84c0430cBf97
-<img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/1717301742745.jpg' width=50 height=50>
+<br>
+<img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/1717301742745.jpg' width=50 height=70>
 
 
 
