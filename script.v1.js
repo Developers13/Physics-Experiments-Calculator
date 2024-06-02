@@ -1,10 +1,11 @@
 
-const p = document.querySelector("#prompt");
+const p = document.getElementById("prompt");
 const ph = document.querySelector("#phead");
 const pc = document.querySelector("#pcontent");
 const submit = document.querySelector("#submit");
 const confidence= document.getElementById("confidence");
 const distribution = document.getElementById("distribution");
+const timebar=document.getElementById("time_bar");
 addEventListener("mpy:ready", function () {
   document.querySelector("#load").remove();
   submit.setAttribute(
@@ -23,10 +24,9 @@ addEventListener("mpy:ready", function () {
     p.style.transition="all 3s";
     p.style.opacity=0;
 },3000);
-  const removePrompt=setTimeout(()=>{p.remove();},6500);
-  clearTimeout(removePrompt);
-  clearTimeout(transition);
-});
+  const removePrompt=setTimeout(()=>{p.remove();},5000);
+  }
+);
 //Out Transition
 
 
@@ -55,10 +55,26 @@ submit.addEventListener("click", function () {
       );
     }
   },3000) ; 
+});
+
+
+//Handle error box
+submit.addEventListener("click",()=>{
+  
+  let ErrorBoxHandler = function(){
+    const errorboxcollection=document.getElementsByClassName("py-error");
+    if (typeof(errorboxcollection)!=(null || undefined)){
+      timebar.classList.add("w-full");
+      const vanishTimeout=setTimeout(()=>{
+        errorboxcollection[errorboxcollection.length-1].remove();
+      },3100);
+      const timebarTransition=setTimeout(()=>{
+        timebar.style.transition="all linear 3s";
+        timebar.style.width=0;
+      });
+    }
+  };
+  
+  ErrorBoxHandler();
+
 })
-
-
-
-
-
-//test
