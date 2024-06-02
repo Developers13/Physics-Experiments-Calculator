@@ -15,6 +15,7 @@
 
 
 <!-- PROJECT LOGO -->
+<img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/calculator-one-svgrepo-com.svg' alt='logo'>
 <br />
 
   <h3 align="center">大学物理实验八步法计算器</h3>
