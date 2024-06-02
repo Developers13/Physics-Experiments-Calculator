@@ -55,21 +55,20 @@ def master(event):
     
     #retrieve and organize input data
     
-    
+        output=document.querySelector("#output2")
         data=document.querySelector("#data").value
         uncertainty=document.querySelector("#uncertainty").value
-        data=split_str(data.strip())
+        data=split_str(str(data).strip())
         uncertainty=split_str(uncertainty)
         _formula=str(document.querySelector("#input").value)
         result=back_substitution(_formula,data,uncertainty)
         _result=0
         for i in range(len(result)):
             _result+=result[i]**2
-            return sqrt(_result)
         output.innerText=f"Result:{_result}"
 def getOrder(event):
     _formula=str(document.querySelector("#input").value)
-    output=document.querySelector("#output")
+    output=document.querySelector("#output1")
     li=seperate_alpha(_formula)
     output.innerText=f"Type in the uncertainty and data in this order:{li}\nGradient:{partial_derivative(_formula)}"
 
