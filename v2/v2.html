@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--for development purpose-->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <!-- PyScript CSS -->
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.5.2/core.css">
 
@@ -15,7 +15,7 @@
     <title>Calc8|Derivative</title>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 mx-3 p-3 inline-block">
-    <dialog class="rounded-sm border-none p-4 backdrop:bg-gray-500 backdrop:bg-opacity-40 flex justify-center">
+    <!--<dialog class="rounded-sm border-none p-4 backdrop:bg-gray-500 backdrop:bg-opacity-40 flex justify-center">
         <p class="text-md font-thin"></p>
         Warning:This page uses full pyodide and sympy module, which could lead to crash and memory leak.
         Use it at your own risk.<br/>
@@ -29,7 +29,7 @@
         function closeWarn(){
             dialog.close();
         }
-    </script>
+    </script>-->
     <script type="py" config="pyscript.json" src="v2.main.py"></script>
     <div class="bg-clip-text  text-2xl text-transparent bg-gradient-to-r  from-purple-600 to-cyan-600 " id="title"> Physics Calculator <div class="inline-block font-light text-md text-transparent bg-clip-text absolute bg-gradient-to-tr from-gray-500 to-[#ffdf00]">v2</div></div>
     <div class="inline-block">
@@ -42,15 +42,16 @@
     <div class="text-md font-thin  my-4">Type the uncertainty, <br/>like x**2+y**2+z**2 => type dx,dy,dz </div>
     <textarea id="uncertainty" class="disabled:bg-gray-300" disabled></textarea>
     <div id="box" class="flex items-center justify-evenly p-2">
-        <button id="submit" py-click="master" class="bg-transparent hover:scale-110 hover:bg-indigo-400 hover:bg-opacity-20 rounded-lg px-3 py-1.5 transition cursor-not-allowed disabled:bg-gray-400" onclick="document.getElementById('data').removeAttribute('disabled');
-        document.getElementById('uncertainty').removeAttribute('disabled');" disabled>Submit</button>
+        <button id="submit" py-click="master" class="bg-transparent hover:scale-110 hover:bg-indigo-400 hover:bg-opacity-20 rounded-lg px-3 py-1.5 transition cursor-not-allowed disabled:bg-gray-400" disabled>Submit</button>
         <button id="reset" onclick="reset()" class="bg-transparent hover:scale-110 hover:bg-indigo-400 hover:bg-opacity-20 rounded-lg px-3 py-1.5 transition">Reset</button>
+        <button id="order" py-click="getOrder" class="bg-transparent hover:scale-110 hover:bg-indigo-400 hover:bg-opacity-20 rounded-lg px-3 py-1.5 transition cursor-not-allowed disabled:bg-gray-400" onclick="document.getElementById('data').removeAttribute('disabled');
+        document.getElementById('uncertainty').removeAttribute('disabled');document.getElementById('submit').removeAttribute('disabled')" disabled>Acquire Order</button>
     </div>
     <div id="output" class="text-black dark:text-white"></div>
     
     </div>
-    <div id="banner" class="bg-yellow-400 bg-opacity-40 rounded-md shadow-md font-extralight">
-        <img src="loading-svgrepo-com.svg" class="animate-spin h-5 w-5 inline "> Please wait PyScript and modules to load.
+    <div id="banner" class="bg-yellow-400 bg-opacity-40 rounded-md shadow-md font-extralight p-3">
+        <img src="loading-svgrepo-com.svg" class="animate-spin h-5 w-5 inline"> Please wait PyScript and modules to load.
     </div>
     <div id="tail" class="bg-neutral-800 dark:bg-neutral-50 pt-5 pb-2 px-6  m-0  font-light  text-sm text-white dark:text-black no-underline">
         <ul>
