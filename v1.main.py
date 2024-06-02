@@ -169,7 +169,7 @@ def master(event):
         A=data_set.UncertaintyA()
         B=data_set.UncertaintyB()
         combined=m.sqrt(A**2+B**2)
-        relative=res_average/combined
+        relative=combined/res_average
         global p
         p=f'Average{res_average}\nDeviation偏离度{res_deviation}\nStandard Error标准误差 :{res_standardError}\nAuncertaintyA类不确定度:{A}\nBUncertaintyB类不确定度{B}\nCombined uncertainty结合不确定度:{combined}\nRelative Error相对误差{relative}'
 
