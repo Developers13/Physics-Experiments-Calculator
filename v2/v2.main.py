@@ -1,54 +1,46 @@
 import re,sympy
-from math import sqrt
+from math import *
 from pyscript import document
-
-
-#global varibles:_vars(list of varibles in the formula)
+illegal_vars_list=('a','c','o','s','t','n','e','h','p','i')
+#global varibles:_vars(list of varibles in the expr)
 
 #local varibles:str_grad(list of gradient, in which every element is a string)
 #import numba 
-def seperate_alpha(string):
-    _l=re.split("",string)
-    l=[]
-    for x in _l:
-        if x.isalpha():
-            l.append(x)
-        else:
-            pass
+def splitVars(string):
+    l=re.split(" ",string)
     return l
-
-def partial_derivative(formula):
+def initVars(defvarslist):
+    return 0 #I ain't know what this fn for..
+def partial_derivative(expr,string):
     global _vars
-    _vars = seperate_alpha(formula)
+    _vars = splitVars(string)
     grad=[]
     vars=[]
     for i in range(len(_vars)):
         vars.append(sympy.symbols(_vars[i]))
         #Calculate partial dif
-        
-        #append into gradient matrix
-        grad.append(sympy.diff(formula,vars[i]))
+    for j in range(len(_vars)):
+        #append into gradient vector
+        grad.append(sympy.diff(expr,vars[j]))
     return grad
 
 #@jit(nopython=True)
-def back_substitution(formula,var_value,d):
+def back_substitution(expr,varsString,var_value,d):
     global res
     res=[]
     str_grad=[]
-    grad=partial_derivative(formula)
+    grad=partial_derivative(expr,varsString)
     for i in range(len(_vars)):
         str_grad.append(str(grad[i]))
         for j in range(len(_vars)):
             str_grad[i]=str_grad[i].replace(_vars[j],var_value[j])#replace the characters into numbers
             
-        res.append(eval(str_grad[i]))
+        res.append(eval(str_grad[i]))#cannot calcuate sin cos..
     for k in range(len(res)):
         res[k]=float(res[k])
         res[k]=res[k]*float(d[k])
     return res
 
-def split_str(string):
-    return re.split(" ",string)
 ##################################################
 
 def master(event):
@@ -58,19 +50,28 @@ def master(event):
         output=document.querySelector("#output2")
         data=document.querySelector("#data").value
         uncertainty=document.querySelector("#uncertainty").value
-        data=split_str(str(data).strip())
-        uncertainty=split_str(uncertainty)
-        _formula=str(document.querySelector("#input").value)
-        result=back_substitution(_formula,data,uncertainty)
+        defvars=document.querySelector("#defvars").value
+        _expr=sympy.simplify(str(document.querySelector("#input").value))
+        #pre-process data
+        data=splitVars(str(data).strip())
+        uncertainty=splitVars(uncertainty)
+        #backsubstitution
+        result=back_substitution(_expr,defvars,data,uncertainty)
         _result=0
         for i in range(len(result)):
             _result+=result[i]**2
-        output.innerText=f"Result:{_result}"
+        output.innerText=f"Result:{sqrt(_result)}"#the final output is the square root of square sum
 def getOrder(event):
-    _formula=str(document.querySelector("#input").value)
+    _expr=sympy.simplify(str(document.querySelector("#input").value))
     output=document.querySelector("#output1")
-    li=seperate_alpha(_formula)
-    output.innerText=f"Type in the uncertainty and data in this order:{li}\nGradient:{partial_derivative(_formula)}"
+    originalDefinedVars=document.querySelector("#defvars").value
+    for x in illegal_vars_list:
+        if (x in str(originalDefinedVars)):
+            output.innerHTML="<p style='background-color:red'>ERR:</p>Contains illegal characters.<br />Confused?<a href='https://github.com/Developers13/Physics-Experiments-Calculator/issues/4'> Look at the issue and help us deal with this=></a>"
+        else:
+            continue
+    else:
+        output.innerText=f"Gradient:{partial_derivative(_expr,originalDefinedVars)}"
 
 
         

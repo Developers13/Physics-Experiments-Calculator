@@ -11,7 +11,7 @@
     <!-- This script tag bootstraps PyScript -->
     <script type="module" src="https://pyscript.net/releases/2024.5.2/core.js"></script>
     <link rel="stylesheet" href="output.css">
-    <script type="text/JavaScript" src="script.v2.js"></script>
+    <script type="text/JavaScript" src="script.v2.js" defer></script>
     <title>Calc8|Derivative</title>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 mx-3 p-3 inline-block min-w-full">
@@ -37,6 +37,9 @@
         <br /> Type the formula with half-width characters. For example +-*/** and so on.
     </div>
     <textarea required id="input" disabled class="required:border-red-500 disabled:bg-gray-300"></textarea>
+    <div class="text-md font-thin">Type the varibles in the formula that is <b>DEFINED BY YOURSELF</b>
+    <br /><b>Avoid using characters:a,c,o,s,t,n,e,h,p,i;</b>Of course you can use varibles with number,like <code class="font-thin">x1,x_2</code> instead.</div>
+    <textarea required disabled id="defvars" class="required:border-red-500 disabled:bg-gray-300"></textarea>
     <div class="text-md font-thin  my-4">Type data, seperate with space</div>
     <textarea id="data" class="disabled:bg-gray-300" disabled></textarea>
     <div class="text-md font-thin  my-4">Type the uncertainty, <br/>like x**2+y**2+z**2 => type dx,dy,dz </div>
