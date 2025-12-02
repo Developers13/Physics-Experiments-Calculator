@@ -6,7 +6,7 @@ const submit = document.querySelector("#submit");
 const confidence= document.getElementById("confidence");
 const distribution = document.getElementById("distribution");
 const timebar=document.getElementById("time_bar");
-addEventListener("mpy:ready", function () {
+document.getElementById("loadpy").addEventListener("mpy:ready", function () {
   document.querySelector("#load").remove();
   submit.setAttribute(
       "class",
