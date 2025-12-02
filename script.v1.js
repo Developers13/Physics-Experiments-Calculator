@@ -1,4 +1,46 @@
 
+// 暗色模式切换功能
+function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    
+    // 检查本地存储的主题偏好
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // 设置初始主题
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+    } else {
+        document.documentElement.classList.remove('dark');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+    }
+    
+    // 切换主题事件
+    themeToggle.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        
+        if (isDark) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            sunIcon.classList.remove('hidden');
+            moonIcon.classList.add('hidden');
+        }
+    });
+}
+
+// 页面加载完成后初始化主题切换
+document.addEventListener('DOMContentLoaded', initThemeToggle);
+
 const p = document.getElementById("prompt");
 const ph = document.querySelector("#phead");
 const pc = document.querySelector("#pcontent");
@@ -58,26 +100,38 @@ submit.addEventListener("click", function () {
 });
 
 
-//Handle error box
+//Handle error box - 只在出现PyScript错误时执行
 submit.addEventListener("click",()=>{
   
   let ErrorBoxHandler = function(){
     const errorboxcollection=document.getElementsByClassName("py-error");
-    if (typeof(errorboxcollection)!=(null || undefined)){
-      timebar.classList.add("w-full");
+    // 只有当确实存在错误框时才执行timebar动画（HTMLCollection.length > 0表示有匹配元素）
+    if (errorboxcollection.length > 0){
+      timebar.classList.add("w-screen");
       const vanishTimeout=setTimeout(()=>{
         errorboxcollection[errorboxcollection.length-1].remove();
       },5100);
-      const timebarTransition=setTimeout(()=>{
+      setTimeout(()=>{
         timebar.style.transition="all linear 5s";
-        timebar.classList.remove('w-full');
+        timebar.classList.remove('w-screen');
         timebar.classList.add('w-0');
-        clearTimeout(timebarTransition);
-      },0);
+      },100);
       setTimeout(()=>{timebar.removeAttribute("style");},5500);
     }
   };
   
-  ErrorBoxHandler();
+  // 延迟执行，等待可能的错误框出现
+  setTimeout(ErrorBoxHandler, 100);
 
 })
+//placeholder text handler
+submit.addEventListener("click",()=>{
+  const placeholdertext=document.getElementById("placeholder-text");
+  if (placeholdertext){
+    placeholdertext.remove();
+  }
+});
+
+
+
+

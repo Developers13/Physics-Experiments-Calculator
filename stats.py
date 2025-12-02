@@ -42,7 +42,7 @@ class Dataset:
         # Base sqrt term (sample deviations summed / n)
         base = math.sqrt(square_sum / n)
 
-        # Apply coefficients to mimic original behavior
+        
         if n <= 10:
             factor = TP1[n] if self.confidence == 0.683 else TP2[n]
         elif 10 < n <= 15:

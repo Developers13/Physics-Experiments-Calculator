@@ -1,25 +1,52 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="A physics experiment data handler and calculator, suitable for 8 steps.物理实验8步法计算器" />
     <meta name="keywords" content="Physics,Data Science,Physics Experiments,College,Calculator,大学物理,物理实验,八步法,计算器,大物实验,大物实验报告,大学物理实验报告," />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--Bing webmaster and Clarity tool-->
-    <meta name="msvalidate.01" content="51ED9A709DD0F7C9699CE7B8FB3FB74F" />
-    
-    
-    <!--for development purpose-->
-    <!--<script src="https://cdn.tailwindcss.com"></script>-->
-    <!-- PyScript CSS -->
+
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
 
-    <!-- This script tag bootstraps PyScript -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          darkMode: 'class',
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'system-ui', 'sans-serif'],
+              },
+              // --- 新增动画定义 ---
+              animation: {
+                // 定义名为'gradient-x'的动画，持续15秒，线性运动，无限循环
+                'gradient-x': 'gradient-x 15s linear infinite',
+              },
+              keyframes: {
+                'gradient-x': {
+                  // 动画开始状态：背景尺寸为400%宽度，背景位置在左侧50%高度处
+                  '0%': {
+                    'background-size': '400% auto',
+                    'background-position': '0% 50%'
+                  },
+                  // 动画结束状态：背景尺寸保持400%宽度，背景位置移动到右侧400%处（实现水平滚动效果）
+                  '100%': {
+                    'background-size': '400% auto',
+                    'background-position': '400% 50%'
+                  },
+                },
+              },
+              // ------------------
+            }
+          }
+        }
+</script>
+    </script>
+
     <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
     
     <script type='text/JavaScript' src="script.v1.js" defer></script>
-    <link rel="stylesheet" href="output.css">
     <script async> 
         var $buoop = {required:{e:-6,f:-6,o:-6,s:-6,c:-6},insecure:true,api:2024.05 }; 
         function $buo_f(){ 
@@ -29,110 +56,182 @@
         };
         try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
         catch(e){window.attachEvent("onload", $buo_f)}
-        </script>
-        <noscript>
-            This  web  page  need  JavaScript (along  with  PyScript) to be  enabled.
-        </noscript>
+    </script>
+    <noscript>
+        This web page needs JavaScript (along with PyScript) to be enabled.
+    </noscript>
                 
-    <title>Calc8</title>
+    <title>Calc8 - Physics Experiments Calculator</title>
+    
+    <style>
+      /* 自定义滚动条样式 */
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+      .dark ::-webkit-scrollbar-thumb { background: #475569; }
+      .dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
   </head>
-  <body class="bg-neutral-50 dark:bg-neutral-800">
-    <script  type="mpy" src="v1.main.py" id="loadpy"></script>
+  
+  <body class="bg-gray-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
+    
+    <script type="mpy" src="v1.main.py" id="loadpy"></script>
     <mpy-config>
       {
         "files": {
-          ".\stats.py":"stats.py"
+          "stats.py":"stats.py"
         }
       }
-       
-      
     </mpy-config>
 
-<div id="bar" class="py-3  px-4 m-2  rounded-md bg-transparent  sticky ">
-
-  <div class="text-2xl bg-clip-text bg-[length:200%_100%] text-transparent bg-gradient-to-r from-[#d16ba5] via-[#86a8e7] to-[#d16ba5]" id="title">Physics Experiments Calculator
-  </div>
+    <div id="bar" class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-slate-900/80 border-b border-gray-200 dark:border-slate-800 transition-all duration-300">
+      <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div
+  id="title"
+  class="text-3xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,#ec4899,#a855f7,#6366f1,#a855f7,#ec4899)] animate-gradient-x pb-1"
+>
+  Calc8
 </div>
-
-<div class="container  m-2 rounded-md  shadow-md  p-3  bg-slate-200 ">
-
-  <div class="text-3xl  my-3"> Data Config</div>
-
-  <form action="#" id="dataform">
-    <div class="block">
-      <label for="distribution">Distribution数据分布</label>
-      <br>
-      <select id="distribution" name="distribution">
-        <option value="default">--Choose Distribution--</option>
-        <option value="even">Evenly distributed平均分布</option>
-        <option value="normal">Normal distribution(Gaussian)正态分布</option>
-      </select>
+        <div class="flex items-center gap-4">
+          <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider hidden sm:block">
+            Physics Experiments Calculator
+          </div>
+          <!-- 暗色模式切换按钮 -->
+          <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors duration-200">
+            <svg id="sun-icon" class="w-5 h-5 text-yellow-500 hidden" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+            </svg>
+            <svg id="moon-icon" class="w-5 h-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="block">
-      <label for="confidence">Confidence Interval置信区间</label>
-      <br>
-      <select id="confidence">
-        <option value="default">--Choose Confidence Interval--</option>
-        <option value=0.683>0.683</option>
-        <option value=0.95>0.95</option>
-      </select>
-    </div>
-    <div class="block">
-      <label for="uncertainty">Margin of error 实验仪器的误差限</label>
-      <br>
-      <textarea required class="caret-red-500    border-solid " id="uncertainty">
 
-            </textarea>
-    </div>
-    <div class="block">
-      <label for="input">Data(seperate with space)数据（用空格分割）</label>
-      <br>
-      <textarea class="caret-green-500  " id="input" required></textarea>
-    </div>
-  </form>
-  <div class="flex  justify-evenly  ">
-    <!--Change the cursur-pointer into cursor-not-allowed in production-->
-    <button class="cursor-not-allowed bg-transparent hover:bg-blue-500 hover:scale-110 bg-opacity-30  rounded-full  px-2  py-1  my-2   transition  " id="submit" mpy-click="master">
-      Submit
-    </button>
+    <main class="flex-grow container max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
 
-    <button class="cursor-pointer bg-transparent hover:bg-neutral-700 hover:scale-110 rounded-full  px-2  py-1  my-2  transition  " id="clear">Clear</button>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 overflow-hidden">
+        <div class="bg-gray-50 dark:bg-slate-800/50 px-6 py-4 border-b border-gray-100 dark:border-slate-700">
+          <h2 class="text-xl font-semibold text-slate-700 dark:text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Data Configuration
+          </h2>
+        </div>
 
-  </div>
-</div>
+        <div class="p-6">
+          <form action="#" id="dataform" class="space-y-5">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="group">
+                <label for="distribution" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Distribution / 数据分布</label>
+                <div class="relative">
+                  <select id="distribution" name="distribution" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3 shadow-sm transition-all cursor-pointer hover:bg-white dark:hover:bg-slate-600">
+                    <option value="default">-- Choose Distribution --</option>
+                    <option value="even">Evenly distributed (平均分布)</option>
+                    <option value="normal">Normal distribution (正态分布)</option>
+                  </select>
+                </div>
+              </div>
 
-<div class="font-extralight text-gray-400 text-center ">Built with Vercel;Performance and security by Cloudflare. </div>
+              <div class="group">
+                <label for="confidence" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Confidence Interval / 置信区间</label>
+                <div class="relative">
+                  <select id="confidence" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3 shadow-sm transition-all cursor-pointer hover:bg-white dark:hover:bg-slate-600">
+                    <option value="default">-- Choose Confidence Interval --</option>
+                    <option value=0.683>0.683</option>
+                    <option value=0.95>0.95</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
-<div id="prompt" class="bg-yellow-500  bg-opacity-50 my-4  mx-3  p-2 rounded-sm  shadow-sm  transition-all  "><img src="loading-svgrepo-com.svg" id="load" class="animate-spin h-5 w-5 p-1 inline">
-  <div class="font-light  text-lg " id="phead">Wait...until...Green</div>
+            <div>
+              <label for="uncertainty" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                Margin of error / 仪器误差限
+              </label>
+              <textarea required rows="2" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 font-mono transition-colors placeholder-gray-400" id="uncertainty" placeholder="e.g. 0.002"></textarea>
+            </div>
 
-  <div id="pcontent" class="font-extralight">Please wait until PyScript fully loaded! You can press F12 and open Developer tools to view the progress.<br/>请等待PyScript完全加载。如果此窗口一直出现，请尝试更换浏览器，或检查网络设置。</div>
+            <div>
+              <label for="input" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                Data (space separated) / 数据 (空格分割)
+              </label>
+              <textarea id="input" required rows="4" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 font-mono transition-colors placeholder-gray-400" placeholder="1.23 1.25 1.24 1.22..."></textarea>
+            </div>
+          </form>
 
-</div>
-      <div id='output' class='block m-3'><code>
-        <div id="part1"></div>
-        <div id="part2"></div>
-      </code></div>
-<div id="tail" class='bg-black  dark:bg-neutral-100  shadow-md  p-8  m-0  font-light  text-sm text-white dark:text-black no-underline'>
+          <div class="flex flex-col sm:flex-row justify-end items-center gap-3 mt-8 pt-4 border-t border-gray-100 dark:border-slate-700">
+            <button class="w-full sm:w-auto px-6 py-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" id="clear">
+              Clear Form
+            </button>
+            
+            <button class="w-full sm:w-auto cursor-not-allowed opacity-70 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full px-8 py-2.5 shadow-md hover:shadow-lg transform transition-all hover:-translate-y-0.5 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="submit" mpy-click="master">
+              Calculate Results
+            </button>
+          </div>
+        </div>
+      </div>
 
-  <ul>
+      <div id="prompt" class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-lg p-4 flex items-start gap-3 transition-all">
+        <div class="flex-shrink-0 mt-0.5">
+          <img src="loading-svgrepo-com.svg" id="load" class="animate-spin h-5 w-5 text-amber-500">
+        </div>
+        <div class="rounded-full">
+          <h3 class="text-base font-medium text-amber-700 dark:text-amber-200" id="phead">Initializing Engine...</h3>
+          <div id="pcontent" class="mt-1 text-sm text-amber-600 dark:text-amber-300/80">
+            Please wait until PyScript is fully loaded. Once ready, the box will turn Green.<br/>
+            请等待 PyScript 完全加载。如果此状态持续过久，请检查网络设置。
+          </div>
+        </div>
+      </div>
 
-    <li id="contact"><a href='mailto:e3216578965@qq.com'>Contact</a></li>
+      <div id='output' class='space-y-4'>
+        <code class="block bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-sm min-h-[100px] text-sm font-mono text-slate-800 dark:text-slate-200 overflow-x-auto">
+          <div id="part1" class="empty:hidden mb-4"></div>
+          <div id="part2" class="empty:hidden"></div>
+          <div id="placeholder" class="text-slate-400 dark:text-slate-500 italic text-center py-4">
+            <div id="placeholder-text">Results will appear here...</div>
+          </div>
+        </code>
+      </div>
 
-    <li id='license'><a href='#'>GNU License</a></li>
+      <div class="text-center">
+        <div class="text-xs font-light text-slate-400 dark:text-slate-500">
+          Built with Vercel • Performance and security by Cloudflare
+        </div>
+      </div>
 
-    <li id='donation'><a href='donate.html'>Donation</a></li>
+    </main>
 
-    <li id='git'><a href='https://github.com/Developers13/Physics-Experiments-Calculator'>GitHub</a></li>
-    <li><a href="v2/v2.html"><div id="entry" class="text-transparent bg-clip-text absolute bg-gradient-to-tr from-gray-500 to-[#ffdf00] ">Go to Calc8 v2</div></a></li>
-  </ul>
+    <footer id="tail" class="mt-auto bg-slate-900 dark:bg-black text-slate-400 py-8 border-t border-slate-800">
+      <div class="container mx-auto px-4 text-center">
+        <ul class="flex flex-wrap justify-center gap-6 text-sm mb-6">
+          <li id="contact"><a href='mailto:e3216578965@qq.com' class="hover:text-white transition-colors">Contact</a></li>
+          <li id='license'><a href='#' class="hover:text-white transition-colors">GNU License</a></li>
+          <li id='donation'><a href='donate.html' class="hover:text-white transition-colors">Donation</a></li>
+          <li id='git'><a href='https://github.com/Developers13/Physics-Experiments-Calculator' class="hover:text-white transition-colors">GitHub</a></li>
+          <li>
+            <a href="v2/v2.html" class="group relative inline-block">
+              <span id="entry" class="bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent font-bold group-hover:from-yellow-300 group-hover:to-white transition-all">
+                Go to Calc8 v2
+              </span>
+            </a>
+          </li>
+        </ul>
+        <div class='flex justify-center items-center gap-2 text-xs opacity-60'>
+          <span>Powered by PyScript and MicroPython</span>
+        </div>
+      </div>
+    </footer>
 
-  <div class='flex  justify-center  items-center  text-xs'>Powered by PyScript and MicroPython</div>
-</div>
-
-</div>
-
-<div id="time_bar" class="h-0.5 rounded-full bg-orange-500 w-0"></div>
+    <div id="time_bar" class="fixed bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 w-0 transition-all duration-300 z-50"></div>
    
   </body>
 </html>
+
+
+
+
+
