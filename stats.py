@@ -1,12 +1,11 @@
 import math
-from typing import List, Optional
 
 # t-factors used by the original code for small samples
-TP1: List[float] = [0, 0, 0, 1.32, 1.20, 1.14, 1.11, 1.09, 1.08, 1.07, 1.06, 1.05, 1.04, 1.03, 1.02, 1.00]
-TP2: List[float] = [0, 0, 0, 4.30, 3.18, 2.78, 2.57, 2.45, 2.36, 2.31, 2.26, 2.23, 2.13, 2.09, 2.04, 1.96]
+TP1 = (0, 0, 0, 1.32, 1.20, 1.14, 1.11, 1.09, 1.08, 1.07, 1.06, 1.05, 1.04, 1.03, 1.02, 1.00)
+TP2 = (0, 0, 0, 4.30, 3.18, 2.78, 2.57, 2.45, 2.36, 2.31, 2.26, 2.23, 2.13, 2.09, 2.04, 1.96)
 
 
-def mean(data: List[float]) -> float:
+def mean(data):
     """Compute arithmetic mean of a list of numbers."""
     if not data:
         raise ValueError("mean() arg is an empty sequence")
@@ -20,20 +19,20 @@ class Dataset:
     but uses clearer, typed internals.
     """
 
-    def __init__(self, org: List[float]):
-        self.distribution: str = "uniform"
-        self.confidence: float = 0.683
-        self.org: List[float] = [float(x) for x in org]
-        self.accuracy: int = 2
-        self.bvkey: List[int] = []
-        self.inherientError: float = 0.0
+    def __init__(self, org):
+        self.distribution = "uniform"
+        self.confidence = 0.683
+        self.org = [float(x) for x in org]
+        self.accuracy = 2
+        self.bvkey = []
+        self.inherientError = 0.0
 
-    def avgDeviation(self, org: Optional[List[float]] = None) -> List[float]:
+    def avgDeviation(self, org=None):
         data = org if org is not None else self.org
         m = mean(data)
         return [float(x) - m for x in data]
 
-    def standardError(self) -> float:
+    def standardError(self):
         diffs = self.avgDeviation(self.org)
         square_sum = sum(d * d for d in diffs)
         n = len(self.org)
@@ -59,7 +58,7 @@ class Dataset:
 
         return factor * base
 
-    def checkBadValue(self, org: Optional[List[float]] = None) -> None:
+    def checkBadValue(self, org=None):
         data = org if org is not None else self.org
         self.bvkey = []
         deviations = self.avgDeviation(data)
@@ -68,7 +67,7 @@ class Dataset:
             if abs(d) > 3 * se:
                 self.bvkey.append(i)
 
-    def removeBadValue(self, org: Optional[List[float]] = None) -> List[float]:
+    def removeBadValue(self, org=None):
         data = list(org if org is not None else self.org)
         if not self.bvkey:
             return data
@@ -79,11 +78,12 @@ class Dataset:
         self.bvkey.clear()
         return data
 
-    def UncertaintyA(self) -> float:
+    def UncertaintyA(self):
         return self.standardError() / math.sqrt(len(self.org))
 
-    def UncertaintyB(self) -> float:
+    def UncertaintyB(self):
         if self.distribution == "Gaussian":
             return self.inherientError / 3
         else:
             return self.inherientError / 1.46
+

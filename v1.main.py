@@ -12,11 +12,6 @@ def recalculate(data):
     return data
 def show(message):
     document.querySelector('#part2').innerText=message
-####################################
-#Part2 the propagation of uncertainty
-        
-            
-
 
         
 
