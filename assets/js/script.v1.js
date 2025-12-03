@@ -56,11 +56,11 @@ document.getElementById("loadpy").addEventListener("mpy:ready", function () {
     );
   p.setAttribute(
     "class",
-    "bg-green-500  bg-opacity-50 my-4  mx-3  p-2 rounded-sm  shadow-sm transition-all "
+    "bg-green-500  bg-opacity-50 my-4  mx-3  p-2 rounded-sm  shadow-sm transition-all text-green-800 dark:text-green-100"
   );
-  
+  pc.setAttribute("class","mt-1 text-sm text-green-800 dark:text-green-100");
   ph.innerText = "You are all set!";
-  pc.innerHTML = "<code>py:ready</code> has triggered.You are ready to go!";
+  pc.innerHTML = "<code class='text-green-900 dark:text-green-50 font-mono bg-green-200/30 dark:bg-green-800/30 px-1 rounded'>py:ready</code> has triggered.<br/>现在可以输入内容了。";
   
   const transition=setTimeout(function(){
     p.style.transition="all 3s";
@@ -131,6 +131,9 @@ submit.addEventListener("click",()=>{
     placeholdertext.remove();
   }
 });
+
+
+
 
 
 

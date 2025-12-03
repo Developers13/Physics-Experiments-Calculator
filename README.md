@@ -92,6 +92,36 @@ Tailwindcss 3.4.1
 
 静态网页使用了Vercel部署。
 
+#### 文件结构说明
+
+```
+Physics-Experiments-Calculator/
+├── index.html              # v1版本主页面
+├── v2.html                 # v2版本主页面（在v2文件夹中）
+├── donate.html             # 捐赠页面
+├── assets/                 # 静态资源目录
+│   ├── css/
+│   │   └── input.css       # v1样式文件
+│   ├── js/
+│   │   ├── script.v1.js    # v1 JavaScript
+│   │   └── script.v2.js    # v2 JavaScript
+│   ├── images/             # 图片资源
+│   └── icons/              # 图标资源
+├── v2/                     # v2版本文件目录
+│   ├── v2.html             # v2主页面（已移动到根目录）
+│   ├── v2.main.py          # v2 Python主程序
+│   ├── pyscript.json       # v2 PyScript配置
+│   └── test/               # v2测试文件
+├── v1.main.py              # v1 Python主程序
+├── stats.py                # 统计计算模块
+├── vercel.json             # Vercel部署配置
+└── README.md               # 项目说明文档
+```
+
+#### Vercel部署配置
+
+项目已配置vercel.json文件，支持静态文件部署和Python函数运行。
+
 ### 使用到的框架
 
 - [Tailwind v3.4.1](https://tailwindcss.com)
@@ -119,6 +149,7 @@ Tailwindcss 3.4.1
 Ethereum:0xE25926d3Df559016eA45552780Eb84c0430cBf97
 <br>
 <img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/1717301742745.jpg' width=50 height=70>
+
 
 
 

@@ -8,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!--TailwindCSS PlayCDN FOR DEVELOPMENT PURPOSE-->
+    <!--<script src="https://cdn.tailwindcss.com"></script>-->
+    <link rel="stylesheet" href="./assets/css/output.css" />
     <script>
         tailwind.config = {
           darkMode: 'class',
@@ -46,17 +47,7 @@
 
     <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
     
-    <script type='text/JavaScript' src="script.v1.js" defer></script>
-    <script async> 
-        var $buoop = {required:{e:-6,f:-6,o:-6,s:-6,c:-6},insecure:true,api:2024.05 }; 
-        function $buo_f(){ 
-         var e = document.createElement("script"); 
-         e.src = "//browser-update.org/update.min.js"; 
-         document.body.appendChild(e);
-        };
-        try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
-        catch(e){window.attachEvent("onload", $buo_f)}
-    </script>
+    <script type='text/JavaScript' src="assets/js/script.v1.js" defer></script>
     <noscript>
         This web page needs JavaScript (along with PyScript) to be enabled.
     </noscript>
@@ -176,11 +167,11 @@
 
       <div id="prompt" class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-lg p-4 flex items-start gap-3 transition-all">
         <div class="flex-shrink-0 mt-0.5">
-          <img src="loading-svgrepo-com.svg" id="load" class="animate-spin h-5 w-5 text-amber-500">
+          <img src="assets/images/loading-svgrepo-com.svg" id="load" class="animate-spin h-5 w-5 text-amber-500">
         </div>
         <div class="rounded-full">
-          <h3 class="text-base font-medium text-amber-700 dark:text-amber-200" id="phead">Initializing Engine...</h3>
-          <div id="pcontent" class="mt-1 text-sm text-amber-600 dark:text-amber-300/80">
+          <h3 class="text-base font-medium text-amber-800 dark:text-amber-100" id="phead">Initializing Engine...</h3>
+          <div id="pcontent" class="mt-1 text-sm text-amber-700 dark:text-amber-200/90">
             Please wait until PyScript is fully loaded. Once ready, the box will turn Green.<br/>
             请等待 PyScript 完全加载。如果此状态持续过久，请检查网络设置。
           </div>
@@ -230,6 +221,8 @@
    
   </body>
 </html>
+
+
 
 
 
