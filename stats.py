@@ -1,9 +1,8 @@
 import math
+from copy import deepcopy
 
-# t-factors used by the original code for small samples
-TP1 = (0, 0, 0, 1.32, 1.20, 1.14, 1.11, 1.09, 1.08, 1.07, 1.06, 1.05, 1.04, 1.03, 1.02, 1.00)
-TP2 = (0, 0, 0, 4.30, 3.18, 2.78, 2.57, 2.45, 2.36, 2.31, 2.26, 2.23, 2.13, 2.09, 2.04, 1.96)
-
+tp1 = (0, 0, 0, 1.32, 1.20, 1.14, 1.11, 1.09, 1.08, 1.07, 1.06, 1.05, 1.04, 1.03, 1.02, 1.00)
+tp2 = (0, 0, 0, 4.30, 3.18, 2.78, 2.57, 2.45, 2.36, 2.31, 2.26, 2.23, 2.13, 2.09, 2.04, 1.96)
 
 def mean(data):
     """Compute arithmetic mean of a list of numbers."""
@@ -11,40 +10,63 @@ def mean(data):
         raise ValueError("mean() arg is an empty sequence")
     return float(sum(map(float, data))) / len(data)
 
+def avg_deviation(data:list) -> list:
+    """
+    Compute average deviation from the mean for a list of numbers.
+    Args:
+        data (list): List of numerical values.
+    Returns:
+        list: List of deviations from the mean.
+    """
+    m = mean(data)
+    return [float(x) - m for x in data]
 
 class Dataset:
-    """A lightweight dataset holder with simple statistical helpers.
-
-    This preserves names compatible with the old code (avgDeviation, standardError, etc.)
-    but uses clearer, typed internals.
     """
-
-    def __init__(self, org):
+    A simple dataset holder with statistical helper methods.
+    """
+    def __init__(self, data:list) -> None:
+        """
+        Args:
+            data(list[str]):  Original data retrieved from sheet
+        Properties:
+            distribution (str): Type of distribution ('uniform' by default).
+            confidence (float): Confidence level (default 0.683).
+            ob_data (list[float]): Observed data points as floats. This will remain unmodified after mapping each element to float.
+            accuracy (int): Decimal accuracy for results (default 2).
+            bvkey (list[int]): Indices of detected bad values.
+            inherient_error (float): Inherent error value.
+            deviations (list[float]): Average deviations from the mean.
+        """
         self.distribution = "uniform"
         self.confidence = 0.683
-        self.org = [float(x) for x in org]
+        self.ob_data = list(map(float, data))
         self.accuracy = 2
-        self.bvkey = []
-        self.inherientError = 0.0
-
-    def avgDeviation(self, org=None):
-        data = org if org is not None else self.org
-        m = mean(data)
-        return [float(x) - m for x in data]
-
-    def standardError(self):
-        diffs = self.avgDeviation(self.org)
-        square_sum = sum(d * d for d in diffs)
-        n = len(self.org)
-        if n == 0:
-            raise ValueError("standardError requires non-empty dataset")
-
-        # Base sqrt term (sample deviations summed / n)
-        base = math.sqrt(square_sum / n)
-
+        self.inherient_error = 0.0
+        self.dispose_log:dict[int,dict] ={}
         
+        
+        
+    
+    def standard_error(self,data=None) -> float:
+        """
+        Calculate the standard error of the dataset.
+        
+        Args:
+            data (list[float]): List of numerical values.
+        
+        Returns:
+            float(float): Standard error value.
+        """
+        data = self.ob_data if data is None else data
+        square_sum = sum(math.pow(d, 2) for d in avg_deviation(data))
+        n = len(data)
+        if n == 0:
+            # For empty data return 0.0 to allow callers to handle gracefully
+            return 0.0
+        base = math.sqrt(square_sum / n)
         if n <= 10:
-            factor = TP1[n] if self.confidence == 0.683 else TP2[n]
+            factor = tp1[n] if self.confidence == 0.683 else tp2[n]
         elif 10 < n <= 15:
             factor = 1.05 if self.confidence == 0.683 else 2.23
         elif 15 < n <= 20:
@@ -55,35 +77,93 @@ class Dataset:
             factor = 1.02 if self.confidence == 0.683 else 2.04
         else:
             factor = 1.00 if self.confidence == 0.683 else 1.96
-
+        
         return factor * base
+    
+    def _chk_bad_value(self,data,se) -> list:
+        """
+        (Internal) Check for bad values and return the indices.
+        Args:
+            data (list[float]): List of numerical values.
+            se (float): Standard error of data.
+        Returns:
+            list (list[int]): Indices of bad values.
+        """
+        # Guard against empty data or zero standard error
+        if not data:
+            return []
+        if not se:
+            return []
+        deviations = avg_deviation(data)
 
-    def checkBadValue(self, org=None):
-        data = org if org is not None else self.org
-        self.bvkey = []
-        deviations = self.avgDeviation(data)
-        se = self.standardError()
-        for i, d in enumerate(deviations):
-            if abs(d) > 3 * se:
-                self.bvkey.append(i)
+        return [i for i, d in enumerate(deviations) if abs(d) > 3 * se]
+    
+    def rm_bad_value(self) -> list | None:
+        """
+        Remove bad values.
+        Write cleaned data and se every epoch into dispose_log.
+        Returns:
+            list (list[float]): Cleaned data.
+        """
+        
+        # Since the se of 'data to be computed' impacts the result of bad value compute, we zip them into a dict
+        
+        se = self.standard_error(self.ob_data) if self.ob_data else 0.0
+        
+        # Work on a copy so original is preserved until we finalize
+        bundled_data = deepcopy(self.ob_data)
+        se = self.standard_error(bundled_data) if bundled_data else 0.0
 
-    def removeBadValue(self, org=None):
-        data = list(org if org is not None else self.org)
-        if not self.bvkey:
-            return data
-        for idx in sorted(set(self.bvkey), reverse=True):
-            if 0 <= idx < len(data):
-                data.pop(idx)
-        # clear recorded keys
-        self.bvkey.clear()
-        return data
+        # 记录初始状态为epoch0
+        epoch = 0
+        self.dispose_log[epoch] = {
+            "data": deepcopy(bundled_data),
+            "mean": mean(bundled_data) if bundled_data else None,
+            "deviation": avg_deviation(bundled_data) if bundled_data else [],
+            "se": se,
+        }
+        # If no bad values at all, return original observed data
+        if not self._chk_bad_value(self.ob_data, se):
+            return self.ob_data
+        
+        # 开始去除坏值的循环
+        while True:
+            idx = self._chk_bad_value(bundled_data, se)
+            if not idx:
+                break
+            epoch += 1
+            for i in reversed(idx):
+                if 0 <= i < len(bundled_data):
+                    bundled_data.pop(i)
 
-    def UncertaintyA(self):
-        return self.standardError() / math.sqrt(len(self.org))
+            # recompute se (guard empty)
+            se = self.standard_error(bundled_data) if bundled_data else 0.0
 
-    def UncertaintyB(self):
+            # compute mean/deviation only when data exists
+            mean_val = mean(bundled_data) if bundled_data else None
+            deviation = avg_deviation(bundled_data) if bundled_data else []
+
+            # store snapshot for this epoch under a unique key
+            self.dispose_log[epoch] = {
+                "data": deepcopy(bundled_data),
+                "mean": mean_val,
+                "deviation": deviation,
+                "se": se,
+            }
+
+            # if data exhausted, stop
+            if not bundled_data:
+                break
+
+        return bundled_data
+    
+    
+    def uncertainty_A(self, data):
+        return self.standard_error(data) / math.sqrt(len(data))
+    
+    def uncertainty_B(self):
         if self.distribution == "Gaussian":
-            return self.inherientError / 3
+            return self.inherient_error / 3
         else:
-            return self.inherientError / 1.46
-
+            return self.inherient_error / 1.46
+    
