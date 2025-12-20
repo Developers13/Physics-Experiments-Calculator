@@ -12,37 +12,8 @@
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <link rel="stylesheet" href="./assets/css/output.css" />
     <script>
-        tailwind.config = {
-          darkMode: 'class',
-          theme: {
-            extend: {
-              fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
-              },
-              // --- 新增动画定义 ---
-              animation: {
-                // 定义名为'gradient-x'的动画，持续15秒，线性运动，无限循环
-                'gradient-x': 'gradient-x 15s linear infinite',
-              },
-              keyframes: {
-                'gradient-x': {
-                  // 动画开始状态：背景尺寸为400%宽度，背景位置在左侧50%高度处
-                  '0%': {
-                    'background-size': '400% auto',
-                    'background-position': '0% 50%'
-                  },
-                  // 动画结束状态：背景尺寸保持400%宽度，背景位置移动到右侧400%处（实现水平滚动效果）
-                  '100%': {
-                    'background-size': '400% auto',
-                    'background-position': '400% 50%'
-                  },
-                },
-              },
-              // ------------------
-            }
-          }
-        }
-</script>
+        // Tailwind CSS v4 不再需要 config 对象，配置在 CSS 文件中完成
+        // 保留此脚本标签以避免破坏页面结构
     </script>
 
     <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
@@ -55,14 +26,19 @@
     <title>Calc8 - Physics Experiments Calculator</title>
     
     <style>
-      /* 自定义滚动条样式 */
-      ::-webkit-scrollbar { width: 8px; height: 8px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-      .dark ::-webkit-scrollbar-thumb { background: #475569; }
-      .dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
-    </style>
+      @theme {
+            /* 自定义字体 */
+            --font-sans: "Inter", "system-ui", sans-serif;
+      }
+      /* 自定义滚动条 */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        @media (prefers-color-scheme: dark) {
+            ::-webkit-scrollbar-thumb { background: #475569; }
+        } 
+    
+      </style>
   </head>
   
   <body class="bg-gray-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
@@ -151,6 +127,30 @@
               </label>
               <textarea id="input" required rows="4" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 font-mono transition-colors placeholder-gray-400" placeholder="1.23 1.25 1.24 1.22..."></textarea>
             </div>
+
+            <div id="checkbox" class="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-200 dark:border-slate-600">
+              <label class="inline-flex items-center gap-3 cursor-pointer group">
+                <div class="relative">
+                  <input type="checkbox" class="sr-only peer" id="require_log">
+                  <div class="w-10 h-6 bg-gray-300 dark:bg-slate-600 peer-checked:bg-indigo-500 rounded-full transition-colors duration-200"></div>
+                  <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-4"></div>
+                </div>
+                <span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  Calculate log
+                </span>
+              </label>
+              
+              <label class="inline-flex items-center gap-3 cursor-pointer group">
+                <div class="relative">
+                  <input type="checkbox" class="sr-only peer" id="require_reciprocal">
+                  <div class="w-10 h-6 bg-gray-300 dark:bg-slate-600 peer-checked:bg-indigo-500 rounded-full transition-colors duration-200"></div>
+                  <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-4"></div>
+                </div>
+                <span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  Calculate reciprocal
+                </span>
+              </label>
+            </div>
           </form>
 
           <div class="flex flex-col sm:flex-row justify-end items-center gap-3 mt-8 pt-4 border-t border-gray-100 dark:border-slate-700">
@@ -221,6 +221,8 @@
    
   </body>
 </html>
+
+
 
 
 
