@@ -7,7 +7,7 @@ def show(message:str):
     """
     Show message in the #part2 section.
     """
-    document.getElementById('part2').innerText=message
+    document.querySelector('#part2').innerText=message
 
         
 
@@ -22,22 +22,21 @@ def master(event):
     #exp_prop=prop(document.querySelector('#dataform'))
     data_form = document.querySelector('#dataform')
 
-    _data = str(document.getElementById('input').value).strip().split()
+    _data = str(document.querySelector('#input').value).strip().split()
     data_set = Dataset(_data)
 
-    # Initial settings (Fetching DOM Elements)
-    data_set.distribution = "Gaussian" if(document.getElementById('distribution').value) == 'normal' else "uniform"
-    data_set.confidence = float(document.getElementById('confidence').value)
-    data_set.inherient_error = float(document.getElementById('uncertainty').value)
-    data_set.require_log = document.getElementById('require_log').checked
-    data_set.require_reciprocal = document.getElementById('require_reciprocal').checked
-    
+    # Initial settings
+    data_set.distribution = "Gaussian" if(document.querySelector('#distribution').value) == 'normal' else "uniform"
+    data_set.confidence = float(document.querySelector('#confidence').value)
+    data_set.inherient_error = float(document.querySelector('#uncertainty').value)
 
-    # Remove bad value (it serves as the main entry of all the methods. once called, all other necessary works will be done alongside.)
-    data_new = data_set.rm_bad_value()
     
-    # Calculate log and reciprocal if required
-    data_set.pushback_optional()
+    res_average=mean(data_set.ob_data)
+    res_deviation=avg_deviation(data_set.ob_data)
+    res_standardError=data_set.standard_error()
+    data_new = data_set.rm_bad_value()
+
+    
     
     # Format dispose_log (expected shape: {int: {str: str, ...}, ...}) into a readable string
     epochs = sorted(data_set.dispose_log.keys())
@@ -72,13 +71,17 @@ def master(event):
     # single string containing the formatted dispose log
     dispose_log_text = "\n".join(dispose_log_lines)
 
+    # If nothing to show, display a friendly message
+    if not dispose_log_text.strip():
+        dispose_log_text = '(no dispose log entries)'
 
     # Safely write into the page: check element exists; otherwise fallback to `show()`
-    target = document.getElementById("part1")
+    target = document.querySelector("#part1")
     if target is not None:
         target.innerText = dispose_log_text
     else:
         show(dispose_log_text)
+
 
     a = data_set.uncertainty_A(data_new)
     b = data_set.uncertainty_B()
@@ -87,3 +90,6 @@ def master(event):
 
 
 
+   
+
+    

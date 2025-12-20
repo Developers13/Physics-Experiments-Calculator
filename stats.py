@@ -4,13 +4,11 @@ from copy import deepcopy
 tp1 = (0, 0, 0, 1.32, 1.20, 1.14, 1.11, 1.09, 1.08, 1.07, 1.06, 1.05, 1.04, 1.03, 1.02, 1.00)
 tp2 = (0, 0, 0, 4.30, 3.18, 2.78, 2.57, 2.45, 2.36, 2.31, 2.26, 2.23, 2.13, 2.09, 2.04, 1.96)
 
-
-# TODO: Replace the calculations with high precision ones (decimal.Decimal if useable) (future feat.)
 def mean(data):
     """Compute arithmetic mean of a list of numbers."""
     if not data:
         raise ValueError("mean() arg is an empty sequence")
-    return round(float(sum(map(float, data))) / len(data) ,5)
+    return float(sum(map(float, data))) / len(data)
 
 def avg_deviation(data:list) -> list:
     """
@@ -21,15 +19,11 @@ def avg_deviation(data:list) -> list:
         list: List of deviations from the mean.
     """
     m = mean(data)
-    return [round(float(x)-m,5) for x in data]
-
-
+    return [float(x) - m for x in data]
 
 class Dataset:
     """
     A simple dataset holder with statistical helper methods.
-    Use with caution: this doesn't use high precision float ops.
-    The final output will only preserve up to 5 digits.
     """
     def __init__(self, data:list) -> None:
         """
@@ -49,8 +43,6 @@ class Dataset:
         self.ob_data = list(map(float, data))
         self.accuracy = 2
         self.inherient_error = 0.0
-        self.require_log = False
-        self.require_reciprocal = False
         self.dispose_log:dict[int,dict] ={}
         
         
@@ -128,7 +120,7 @@ class Dataset:
             "data": deepcopy(bundled_data),
             "mean": mean(bundled_data) if bundled_data else None,
             "deviation": avg_deviation(bundled_data) if bundled_data else [],
-            "se": round(se,5),
+            "se": se,
         }
         # If no bad values at all, return original observed data
         if not self._chk_bad_value(self.ob_data, se):
@@ -165,16 +157,7 @@ class Dataset:
 
         return bundled_data
     
-    def pushback_optional(self):
-        """
-        Calculate log and reciprocal if needed and pushback into dispose_log.
-        """
-        if self.dispose_log:
-            epochs:list[int] = list(self.dispose_log.keys())
-            for epoch in epochs:
-                self.dispose_log[epoch]["log"] = [round(math.log(x),5) if x > 0 else math.nan for x in self.dispose_log[epoch]["data"]] if self.require_log else None
-                self.dispose_log[epoch]["reciprocal"] = [round((1/x),5) if x!=0 else math.inf for x in self.dispose_log[epoch]["data"]] if self.require_reciprocal else None
-
+    
     def uncertainty_A(self, data):
         return self.standard_error(data) / math.sqrt(len(data))
     
@@ -184,4 +167,3 @@ class Dataset:
         else:
             return self.inherient_error / 1.46
     
-
