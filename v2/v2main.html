@@ -56,6 +56,7 @@
 <body class="bg-gray-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
     <script type="py" config="pyscript.json" src="v2.main.py"></script>
+    <script type="py" src="plotting.py"></script>
 
     <div class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-slate-900/80 border-b border-gray-200 dark:border-slate-800">
         <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -204,8 +205,7 @@
                             <p class="mt-1 text-xs text-slate-400">Separate values with space or comma</p>
                         </div>
                     </div>
-
-                    <button id="plot-btn" class="cursor-pointer w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-lg py-2.5 font-medium shadow-md transition-all">
+                    <button id="plot-btn" py-click="generate_plot" class="cursor-pointer w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-lg py-2.5 font-medium shadow-md transition-all">
                         Generate Plot
                     </button>
 
@@ -332,4 +332,7 @@
     </script>
 </body>
 </html>
+
+
+
 

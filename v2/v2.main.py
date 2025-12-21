@@ -6,8 +6,11 @@ illegal_vars_list=('a','c','o','s','t','n','e','h','p','i')
 
 #local varibles:str_grad(list of gradient, in which every element is a string)
 #import numba 
-def splitVars(string):
-    l=re.split(" ",string)
+def splitVars(string:str) -> list[str]:
+    if ',' in string:
+        l=string.split(",")
+    else:
+        l=string.split()
     return l
 def initVars(defvarslist):
     return 0 #I ain't know what this fn for..
@@ -47,20 +50,20 @@ def master(event):
     
     #retrieve and organize input data
     
-        output=document.querySelector("#output2")
-        data=document.querySelector("#data").value
-        uncertainty=document.querySelector("#uncertainty").value
-        defvars=document.querySelector("#defvars").value
-        _expr=sympy.simplify(str(document.querySelector("#input").value))
-        #pre-process data
-        data=splitVars(str(data).strip())
-        uncertainty=splitVars(uncertainty)
-        #backsubstitution
-        result=back_substitution(_expr,defvars,data,uncertainty)
-        _result=0
-        for i in range(len(result)):
-            _result+=result[i]**2
-        output.innerText=f"Result:{sqrt(_result)}"#the final output is the square root of square sum
+    output=document.querySelector("#output2")
+    data=document.querySelector("#data").value
+    uncertainty=document.querySelector("#uncertainty").value
+    defvars=document.querySelector("#defvars").value
+    _expr=sympy.simplify(str(document.querySelector("#input").value))
+    #pre-process data
+    data=splitVars(str(data).strip())
+    uncertainty=splitVars(uncertainty)
+    #backsubstitution
+    result=back_substitution(_expr,defvars,data,uncertainty)
+    _result=0
+    for i in range(len(result)):
+        _result+=result[i]**2
+    output.innerText=f"Result:{sqrt(_result)}"#the final output is the square root of square sum
 def getOrder(event):
     _expr=sympy.simplify(str(document.querySelector("#input").value))
     output=document.querySelector("#output1")
