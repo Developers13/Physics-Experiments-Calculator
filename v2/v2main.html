@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calc8 | Derivative & Plot</title>
+
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.5.2/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.5.2/core.js"></script>
+    
+    <script type="text/JavaScript" src="../assets/js/script.v2.js" defer></script>
+
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+    <style type="text/tailwindcss">
+        @theme {
+            /* 自定义字体 */
+            --font-sans: "Inter", "system-ui", sans-serif;
+
+            /* 注册自定义动画 */
+            --animate-gradient-flow: gradient-flow 6s linear infinite;
+
+            /* 定义 Keyframes */
+            @keyframes gradient-flow {
+                0% { background-size: 200% auto; background-position: 0% center; }
+                100% { background-size: 200% auto; background-position: 100% center; }
+            }
+        }
+
+        /* 传统的 CSS 用于处理 Tab 切换的显示/隐藏 */
+        .tab-content { 
+            display: none; 
+            animation: fadeIn 0.3s ease-in-out; 
+        }
+        
+        /* 使用 @utility 可以定义自定义工具类，或者直接写 CSS */
+        .tab-content.active { 
+            display: block; 
+        }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(5px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        @media (prefers-color-scheme: dark) {
+            ::-webkit-scrollbar-thumb { background: #475569; }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
+
+    <script type="py" config="pyscript.json" src="v2.main.py"></script>
+    <script type="py" src="plotting.py"></script>
+
+    <div class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-slate-900/80 border-b border-gray-200 dark:border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div id="title" class="text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,#ec4899,#a855f7,#6366f1,#a855f7,#ec4899)] animate-gradient-flow pb-1">
+                    Calc8
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 text-xs font-bold border border-yellow-200 dark:border-yellow-700">
+                    v2
+                </span>
+            </div>
+            
+            <div class="flex bg-gray-100 dark:bg-slate-800 rounded-lg p-1">
+                <button onclick="switchTab('derivative')" id="tab-derivative" class="cursor-pointer px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 bg-white dark:bg-slate-700 shadow-sm text-indigo-600 dark:text-indigo-300">
+                    Derivative
+                </button>
+                <button onclick="switchTab('plot')" id="tab-plot" class="cursor-pointer px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+                    Plot
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <main class="flex-grow container max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
+
+        <div id="banner" class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-lg p-4 flex items-center gap-3">
+            <img src="../assets/images/loading-svgrepo-com.svg" class="animate-spin h-5 w-5 text-amber-500">
+            <div class="text-sm text-amber-800 dark:text-amber-200">
+                Initializing PyScript environment... <span class="opacity-70 text-xs">(Calculations may take a moment)</span>
+            </div>
+        </div>
+
+        <div id="view-derivative" class="tab-content active">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 overflow-hidden">
+                <div class="bg-gray-50 dark:bg-slate-800/50 px-6 py-4 border-b border-gray-100 dark:border-slate-700">
+                    <h2 class="text-lg font-semibold text-slate-700 dark:text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 36v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                        Uncertainty Calculator
+                    </h2>
+                </div>
+
+                <div class="p-6 space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Formula (公式)</label>
+                            <textarea id="input" required rows="2" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-mono p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all" placeholder="e.g. x**2 + y*sin(z)"></textarea>
+                            <p class="mt-1 text-xs text-slate-400">Use half-width chars: +, -, *, /, **</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Defined Variables (变量)</label>
+                            <textarea id="defvars" required rows="2" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-mono p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all" placeholder="e.g. x, y, z"></textarea>
+                            <p class="mt-1 text-xs text-red-400/80">Avoid reserved: a, c, o, s, t, n, e, h, p, i</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-2">
+                         <button id="order" py-click="getOrder" class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-6 py-2 shadow-md transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed" onclick="enableDataInputs()">
+                            Step 1: Acquire Derivative
+                        </button>
+                    </div>
+
+                    <div class="border-t border-gray-100 dark:border-slate-700 my-4"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="relative group">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Data (数据)</label>
+                            <textarea id="data" disabled rows="3" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-mono p-3 disabled:bg-gray-200 dark:disabled:bg-slate-800/30 disabled:cursor-not-allowed transition-all" placeholder="Enter values space separated"></textarea>
+                        </div>
+                        <div class="relative group">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Uncertainty (误差 dx, dy...)</label>
+                            <textarea id="uncertainty" disabled rows="3" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-mono p-3 disabled:bg-gray-200 dark:disabled:bg-slate-800/30 disabled:cursor-not-allowed transition-all" placeholder="Enter uncertainties"></textarea>
+                        </div>
+                    </div>
+
+                    <div id="box" class="flex items-center justify-end gap-3 pt-4">
+                        <button id="reset" onclick="resetForm()" class="cursor-pointer px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition font-medium text-sm">
+                            Reset
+                        </button>
+                        <button id="submit" py-click="master" disabled class="cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-lg px-8 py-2 shadow-lg hover:shadow-xl transform transition-all hover:-translate-y-0.5 font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none">
+                            Step 2: Calculate Result
+                        </button>
+                    </div>
+
+                    <div id="output" class="bg-slate-50 dark:bg-slate-900 rounded-lg p-4 border border-slate-200 dark:border-slate-700 min-h-[80px] font-mono text-sm break-all">
+                        <div id="output1" class="text-slate-800 dark:text-slate-200 mb-2"></div>
+                        <div id="output2" class="text-indigo-600 dark:text-indigo-400 font-semibold"></div>
+                        <div id="placeholder" class="text-slate-400 dark:text-slate-600 italic text-center text-xs py-2">Results will appear here</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-plot" class="tab-content">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 overflow-hidden">
+                <div class="bg-gray-50 dark:bg-slate-800/50 px-6 py-4 border-b border-gray-100 dark:border-slate-700">
+                    <h2 class="text-lg font-semibold text-slate-700 dark:text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
+                        Function Plotter
+                    </h2>
+                </div>
+                <div class="p-6 space-y-6">
+                    <!-- 双向开关 -->
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="bg-gray-100 dark:bg-slate-700 rounded-lg p-1 flex">
+                            <button id="switch-function" class="cursor-pointer px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 bg-white dark:bg-slate-600 shadow-sm text-pink-600 dark:text-pink-300">
+                                Function
+                            </button>
+                            <button id="switch-scatter" class="cursor-pointer px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+                                Scatter
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 函数绘制部分 -->
+                    <div id="function-inputs" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Function y = f(x)</label>
+                            <div class="flex gap-2">
+                                <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-slate-600 bg-gray-100 dark:bg-slate-700 text-gray-500 text-sm">y =</span>
+                                <input type="text" id="plot-formula" class="block w-full rounded-r-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 focus:ring-pink-500 focus:border-pink-500 text-sm font-mono p-2.5" placeholder="sin(x) * x">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-slate-500 mb-1">X Min</label>
+                                <input type="number" value="-10" id="plot-xmin" class="w-full rounded border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 p-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-slate-500 mb-1">X Max</label>
+                                <input type="number" value="10" id="plot-xmax" class="w-full rounded border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 p-2 text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 散点绘制部分 -->
+                    <div id="scatter-inputs" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">X Data (x坐标数据)</label>
+                            <textarea id="scatter-x" rows="3" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 focus:ring-pink-500 focus:border-pink-500 text-sm font-mono p-3" placeholder="Enter x values separated by space or comma"></textarea>
+                            <p class="mt-1 text-xs text-slate-400">Separate values with space or comma</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Y Data (y坐标数据)</label>
+                            <textarea id="scatter-y" rows="3" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 focus:ring-pink-500 focus:border-pink-500 text-sm font-mono p-3" placeholder="Enter y values separated by space or comma"></textarea>
+                            <p class="mt-1 text-xs text-slate-400">Separate values with space or comma</p>
+                        </div>
+                    </div>
+                    <button id="plot-btn" py-click="generate_plot" class="cursor-pointer w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-lg py-2.5 font-medium shadow-md transition-all">
+                        Generate Plot
+                    </button>
+
+                    <div id="plot-output" class="w-full h-64 bg-slate-100 dark:bg-slate-900 rounded-lg flex items-center justify-center border border-dashed border-slate-300 dark:border-slate-600">
+                        <span class="text-slate-400 text-sm">Plot area (Requires matplotlib implementation)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer id="tail" class="mt-auto bg-slate-900 dark:bg-black text-slate-400 py-8 border-t border-slate-800">
+        <div class="container mx-auto px-4 text-center">
+            <ul class="flex flex-wrap justify-center gap-6 text-sm mb-6">
+                <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">GitHub</a></li>
+                <li><a href="https://calc.cryste.site" class="text-indigo-400 hover:text-indigo-300">Back to v1</a></li>
+            </ul>
+            <div class="flex justify-center items-center gap-4 text-xs opacity-60">
+                <a href="https://pyscript.net" class="flex items-center gap-1 hover:opacity-100"><img src="../assets/images/pyscript-sticker-black.svg" class="w-5 grayscale"> Coding for 99%</a>
+                <span class="border-l border-slate-700 h-3"></span>
+                <a href="https://pyodide.org" class="hover:opacity-100">Powered by Pyodide</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabName) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Show selected
+            document.getElementById('view-' + tabName).classList.add('active');
+
+            // Reset Tab Styles
+            const activeClass = ['bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-indigo-600', 'dark:text-indigo-300'];
+            const inactiveClass = ['text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200'];
+
+            const btnDeriv = document.getElementById('tab-derivative');
+            const btnPlot = document.getElementById('tab-plot');
+
+            // Clear classes
+            btnDeriv.classList.remove(...activeClass, ...inactiveClass);
+            btnPlot.classList.remove(...activeClass, ...inactiveClass);
+
+            if (tabName === 'derivative') {
+                btnDeriv.classList.add(...activeClass);
+                btnPlot.classList.add(...inactiveClass);
+            } else {
+                btnPlot.classList.add(...activeClass);
+                btnDeriv.classList.add(...inactiveClass);
+            }
+        }
+
+        // Enable Data Inputs Hook
+        function enableDataInputs() {
+            document.getElementById('data').removeAttribute('disabled');
+            document.getElementById('uncertainty').removeAttribute('disabled');
+            document.getElementById('submit').removeAttribute('disabled');
+        }
+
+        // JS-side Reset
+        function resetForm() {
+            document.getElementById('input').value = '';
+            document.getElementById('defvars').value = '';
+            document.getElementById('data').value = '';
+            document.getElementById('uncertainty').value = '';
+            document.getElementById('output1').innerHTML = '';
+            document.getElementById('output2').innerHTML = '';
+            document.getElementById('placeholder').style.display = 'block';
+            
+            document.getElementById('data').setAttribute('disabled', 'true');
+            document.getElementById('uncertainty').setAttribute('disabled', 'true');
+            document.getElementById('submit').setAttribute('disabled', 'true');
+        }
+
+        // 双向开关切换逻辑
+        function switchPlotMode(mode) {
+            const functionBtn = document.getElementById('switch-function');
+            const scatterBtn = document.getElementById('switch-scatter');
+            const functionInputs = document.getElementById('function-inputs');
+            const scatterInputs = document.getElementById('scatter-inputs');
+            const plotBtn = document.getElementById('plot-btn');
+
+            const activeClass = ['bg-white', 'dark:bg-slate-600', 'shadow-sm', 'text-pink-600', 'dark:text-pink-300'];
+            const inactiveClass = ['text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200'];
+
+            // 清除按钮样式
+            functionBtn.classList.remove(...activeClass, ...inactiveClass);
+            scatterBtn.classList.remove(...activeClass, ...inactiveClass);
+
+            if (mode === 'function') {
+                // 切换到函数模式
+                functionBtn.classList.add(...activeClass);
+                scatterBtn.classList.add(...inactiveClass);
+                functionInputs.classList.remove('hidden');
+                scatterInputs.classList.add('hidden');
+                plotBtn.textContent = 'Generate Function Plot';
+            } else {
+                // 切换到散点模式
+                scatterBtn.classList.add(...activeClass);
+                functionBtn.classList.add(...inactiveClass);
+                scatterInputs.classList.remove('hidden');
+                functionInputs.classList.add('hidden');
+                plotBtn.textContent = 'Generate Scatter Plot';
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为开关按钮添加事件监听器
+            document.getElementById('switch-function').addEventListener('click', function() {
+                switchPlotMode('function');
+            });
+
+            document.getElementById('switch-scatter').addEventListener('click', function() {
+                switchPlotMode('scatter');
+            });
+
+            // 初始化默认模式为函数模式
+            switchPlotMode('function');
+        });
+    </script>
+</body>
+</html>
+
+
+
+
