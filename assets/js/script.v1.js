@@ -1,12 +1,16 @@
-
 // 暗色模式切换功能
 function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
     const sunIcon = document.getElementById('sun-icon');
     const moonIcon = document.getElementById('moon-icon');
     
+    if (!themeToggle || !sunIcon || !moonIcon) {
+        console.error('暗色模式切换元素未找到');
+        return;
+    }
+    
     // 检查本地存储的主题偏好
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = localStorage.theme;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     // 设置初始主题
@@ -26,12 +30,12 @@ function initThemeToggle() {
         
         if (isDark) {
             document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
+            localStorage.theme = 'light';
             sunIcon.classList.add('hidden');
             moonIcon.classList.remove('hidden');
         } else {
             document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
+            localStorage.theme = 'dark';
             sunIcon.classList.remove('hidden');
             moonIcon.classList.add('hidden');
         }
@@ -39,7 +43,11 @@ function initThemeToggle() {
 }
 
 // 页面加载完成后初始化主题切换
-document.addEventListener('DOMContentLoaded', initThemeToggle);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThemeToggle);
+} else {
+    initThemeToggle();
+}
 
 const p = document.getElementById("prompt");
 const ph = document.querySelector("#phead");
@@ -131,6 +139,8 @@ submit.addEventListener("click",()=>{
     placeholdertext.remove();
   }
 });
+
+
 
 
 

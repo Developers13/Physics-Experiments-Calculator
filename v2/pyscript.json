@@ -1,4 +1,4 @@
 {
-    "packages":["sympy"],
+    "packages":["sympy", "numpy", "matplotlib"],
     "sync_main_only":true
 }

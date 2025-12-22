@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+/* 手动切换暗色模式配置 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 自定义动画定义 */
+@keyframes gradient-x {
+  /* 动画开始状态：背景尺寸为400%宽度，背景位置在左侧50%高度处 */
+  0% {
+    background-size: 400% auto;
+    background-position: 0% 50%;
+  }
+  /* 动画结束状态：背景尺寸保持400%宽度，背景位置移动到右侧400%处（实现水平滚动效果） */
+  100% {
+    background-size: 400% auto;
+    background-position: 400% 50%;
+  }
+}
+
+/* 自定义动画类 */
+@utility animate-gradient-x {
+  animation: gradient-x 15s linear infinite;
+}
+
