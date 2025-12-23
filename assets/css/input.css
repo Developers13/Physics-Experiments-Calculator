@@ -22,3 +22,74 @@
   animation: gradient-x 15s linear infinite;
 }
 
+/* 自定义主题配置 */
+@theme {
+  /* 自定义字体 */
+  --font-sans: "Inter", "system-ui", sans-serif;
+
+  /* 注册自定义动画 */
+  --animate-gradient-flow: gradient-flow 6s linear infinite;
+}
+
+/* 自定义 Keyframes */
+@keyframes gradient-flow {
+  0% { background-size: 200% auto; background-position: 0% center; }
+  100% { background-size: 200% auto; background-position: 100% center; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(120%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(120%); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Toast通知样式 */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 50;
+  max-width: 400px;
+  background: #f59e0b;
+  color: #78350f;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  transform: translateX(120%);
+  transition: transform 0.3s ease-out;
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+.toast.hide {
+  transform: translateX(120%);
+}
+
+/* Tab内容切换样式 */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-thumb { background: #475569; }
+}
