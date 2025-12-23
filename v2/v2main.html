@@ -10,7 +10,7 @@
     
     <script type="text/JavaScript" src="../assets/js/script.v2.js" defer></script>
 
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="../assets/css/output.css" />
     
     <style type="text/tailwindcss">
         @theme {
@@ -27,20 +27,54 @@
             }
         }
 
+        /* Toast通知样式 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+            max-width: 400px;
+            background: #f59e0b;
+            color: #78350f;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 16px;
+            transform: translateX(120%);
+            transition: transform 0.3s ease-out;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.hide {
+            transform: translateX(120%);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(120%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); }
+            to { transform: translateX(120%); }
+        }
+
         /* 传统的 CSS 用于处理 Tab 切换的显示/隐藏 */
-        .tab-content { 
-            display: none; 
-            animation: fadeIn 0.3s ease-in-out; 
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
         }
         
         /* 使用 @utility 可以定义自定义工具类，或者直接写 CSS */
-        .tab-content.active { 
-            display: block; 
+        .tab-content.active {
+            display: block;
         }
 
-        @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(5px); } 
-            to { opacity: 1; transform: translateY(0); } 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         /* 自定义滚动条 */
@@ -54,6 +88,24 @@
 </head>
 
 <body class="bg-gray-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
+<!-- Toast警告通知 -->
+<div id="warning-toast" class="toast">
+    <div class="flex items-start gap-3">
+        <svg class="w-5 h-5 text-amber-900 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <div class="flex-1">
+            <h3 class="font-semibold text-sm mb-1 text-amber-900">注意</h3>
+            <p class="text-xs opacity-90 leading-relaxed text-amber-800">
+                此页面使用完整的Pyodide，Sympy和Matplotlib模块，可能导致崩溃。使用风险自负。
+            </p>
+        </div>
+        <button onclick="closeWarn()" class="bg-amber-600 hover:bg-amber-700 text-amber-50 rounded-full w-6 h-6 flex items-center justify-center text-xs transition-colors flex-shrink-0">
+            ×
+        </button>
+    </div>
+</div>
+    </div>
 
     <script type="py" config="pyscript.json" src="v2.main.py"></script>
     <script type="py" src="plotting.py"></script>
@@ -315,8 +367,34 @@
             }
         }
 
+        // 显示Toast警告
+        function showToast() {
+            const toast = document.getElementById('warning-toast');
+            if (toast) {
+                toast.classList.add('show');
+                toast.classList.remove('hide');
+            }
+        }
+
+        // 关闭Toast警告
+        function closeWarn() {
+            const toast = document.getElementById('warning-toast');
+            if (toast) {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }
+        }
+
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function() {
+            // 显示Toast警告
+            setTimeout(() => {
+                showToast();
+            }, 1000);
+
             // 为开关按钮添加事件监听器
             document.getElementById('switch-function').addEventListener('click', function() {
                 switchPlotMode('function');
@@ -328,10 +406,25 @@
 
             // 初始化默认模式为函数模式
             switchPlotMode('function');
+            
+            // 自动隐藏Toast（可选：8秒后自动隐藏）
+            setTimeout(() => {
+                closeWarn();
+            }, 8000);
         });
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 

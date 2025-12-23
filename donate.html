@@ -4,39 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--For development use-->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<script src="https://cdn.tailwindcss.com"></script>-->
+    <link rel="stylesheet" href="./assets/css/output.css" />
     <script type="text/javascript">
-        var select_flag;
-        const select_item=document.getElementsByName('donation');
-        for (i=0;i<select_item.length;i++){
-            if (select_item[i].checked){
-                select_flag=select_item[i].value;
-            }
-        }
-        if (select_flag=='alipay'){
-            document.getElementById('envelop-img').hidden=false;
-            document.getElementById('eth-addr').hidden=true;
-        }
-        else{
-            document.getElementById('envelop-img').hidden=true;
-            document.getElementById('eth-addr').hidden=false;
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const methodForm = document.getElementById('method');
+            const envelopImg = document.getElementById('envelop-img');
+            const ethAddr = document.getElementById('eth-addr');
+
+            methodForm.addEventListener('change', function(event) {
+                const selectedMethod = methodForm.elements['donation'].value;
+                if (selectedMethod === 'alipay') {
+                    envelopImg.classList.remove('hidden');
+                    ethAddr.classList.add('hidden');
+                } else if (selectedMethod === 'eth') {
+                    envelopImg.classList.add('hidden');
+                    ethAddr.classList.remove('hidden');
+                    ethAddr.innerHTML = '<p class="text-center text-gray-700 dark:text-gray-300">Ethereum Address: 0xYourEthereumAddressHere</p>';
+                }
+            });
+        });
     </script>
     <title>Donation</title>
 </head>
 <body>
     <div id="main" class="bg-slate-50 dark:bg-black flex items-center justify-center">
         <form id="method">
-        <div class="block"><label for="donation" class="has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:ring-indigo-200" id="alipay">
+        <div class="block"><label for="donation" class="has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:ring-indigo-200" id="donation">
             <img src="assets/images/alipay-svgrepo-com.svg" class="bg-indigo-100" alt="alipay" width="20" height="20" >Alipay
-            <input type="radio" class="checked:border-indigo-300" name="donation" value="alipay" checked onclick="select_flag='alipay'">
+            <input type="radio" class="checked:border-indigo-300" name="donation" value="alipay" checked>
             <img src="assets/images/ethereum-svgrepo-com.svg" class="bg-indigo-100" alt="eth" width="20" height="20">Ethereum
-            <input type="radio" class="checked:border-indigo-300 " name="donation" value="eth" onclick="select_flag='eth'">
+            <input type="radio" class="checked:border-indigo-300 " name="donation" value="eth">
         </label>
         </div>
         </form>
-        <div class="hidden" id="envelop-img">
-            <img src="assets/images/1717301742745.jpg">
+        <div class="" id="envelop-img">
+            <img src="assets/images/1717301742745.jpg" width="300" height="100">
         </div>
         <div class="hidden" id="eth-addr"></div>
         </div>
