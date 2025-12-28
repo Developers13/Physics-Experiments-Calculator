@@ -16,7 +16,7 @@
 
 <!-- PROJECT LOGO -->
 <p align='center'>
-  <img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/calculator-one-svgrepo-com.svg' alt='logo' width=80 height=80 >
+  <img src='./assets/images/calculator-one-svgrepo-com.svg' alt='logo' width=80 height=80 >
 </p>
 <br />
 
@@ -115,7 +115,8 @@ Physics-Experiments-Calculator/
 │   └── favicon.ico         # 网站图标
 └── assets/                 # 静态资源目录
     ├── css/
-    │   └── input.css       # v1样式文件
+    │   ├── input.css       # tailwind输入样式文件
+    |   └── output.css      # tailwind输出样式文件
     ├── js/
     │   ├── script.v1.js    # v1 JavaScript
     │   └── script.v2.js    # v2 JavaScript
@@ -123,9 +124,6 @@ Physics-Experiments-Calculator/
     └── icons/              # 图标资源
 ```
 
-#### Vercel部署配置
-
-项目已配置vercel.json文件，支持静态文件部署和Python函数运行。
 
 ### 使用到的框架
 
