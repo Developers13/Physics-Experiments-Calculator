@@ -1,3 +1,4 @@
+
 // 暗色模式切换功能
 function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
@@ -42,11 +43,17 @@ function initThemeToggle() {
     });
 }
 
-// 页面加载完成后初始化主题切换
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initThemeToggle);
-} else {
+// 页面加载完成后初始化所有功能
+function initAll() {
+    initResourceMonitor();
     initThemeToggle();
+}
+
+// 页面加载完成后初始化
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+} else {
+    initAll();
 }
 
 const p = document.getElementById("prompt");
@@ -139,12 +146,3 @@ submit.addEventListener("click",()=>{
     placeholdertext.remove();
   }
 });
-
-
-
-
-
-
-
-
-
