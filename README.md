@@ -16,7 +16,7 @@
 
 <!-- PROJECT LOGO -->
 <p align='center'>
-  <img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/calculator-one-svgrepo-com.svg' alt='logo' width=80 height=80 >
+  <img src='./assets/images/calculator-one-svgrepo-com.svg' alt='logo' width=80 height=80 >
 </p>
 <br />
 
@@ -51,29 +51,51 @@
 ### 上手指南
 
 #### 静态网页
-<a href="https://calc.cryste.site">Go>></a>
+<a href="https://phycalc.tbit.top">Go>></a>
 
+## 使用说明
 
-数据分布：选择平均分布或正态分布，该选项与实验过程和实验仪器有关
+### 程序初始化
+- 首次访问需等待PyScript引擎加载，状态框变绿表示就绪
+- 如加载时间过长，请检查网络连接
 
+### 数据配置步骤
+1. **选择数据分布类型**：
+   - 平均分布：适用于均匀分布数据
+   - 正态分布：适用于正态分布数据
 
-置信区间：3sigma:0.683 2sigma:0.95 一般情况使用0.683
+2. **设置置信区间**：
+   - 0.683：对应3σ置信水平
+   - 0.95：对应2σ置信水平
 
+3. **输入仪器误差限**：
+   - 根据实验仪器精度填写
+   - 如不确定可输入0（但不能留空）
 
-仪器误差限：与实验仪器有关，请查阅资料。
+4. **输入实验数据**：
+   - 用空格分隔多个数值
+   - 支持整数和小数格式
 
+5. **可选计算功能**：
+   - 勾选"Calculate log"进行对数计算
+   - 勾选"Calculate reciprocal"进行倒数计算
 
-数据：请用空格分开。
+### 操作按钮
+- **Clear Form**：清空所有输入内容
+- **Calculate Results**：开始计算并显示结果
 
+### 结果查看
+- 计算结果显示在页面下方区域
+- 包含数据处理过程、不确定度分析等详细信息
 
-“数据分布”和“仪器误差限”会直接影响B类不确定度的结果。对于同一个实验B类不确定度应该是相同的，如果您不确定，可以在仪器误差限的输入框中输入0（但不能留空）
+### 高级功能
+- 点击"Go to Calc8 v2"进入增强版本
+- v2版本支持不确定度传递计算和函数绘图
 
-
-**一定记得选择分布和置信区间，且两个输入框均不能留空**
-
-
-在网页的底端有一个通向v2版本的链接，点击即可进入不确定度传递计算页面
-
+### 注意事项
+- 确保所有必填项都已选择或输入
+- 数据分布和仪器误差限直接影响B类不确定度
+- 同一实验的B类不确定度应保持不变
 
 ###### 开发前的配置要求
 
@@ -115,7 +137,8 @@ Physics-Experiments-Calculator/
 │   └── favicon.ico         # 网站图标
 └── assets/                 # 静态资源目录
     ├── css/
-    │   └── input.css       # v1样式文件
+    │   ├── input.css       # tailwind输入样式文件
+    |   └── output.css      # tailwind输出样式文件
     ├── js/
     │   ├── script.v1.js    # v1 JavaScript
     │   └── script.v2.js    # v2 JavaScript
@@ -123,9 +146,6 @@ Physics-Experiments-Calculator/
     └── icons/              # 图标资源
 ```
 
-#### Vercel部署配置
-
-项目已配置vercel.json文件，支持静态文件部署和Python函数运行。
 
 ### 使用到的框架
 
@@ -154,6 +174,7 @@ Physics-Experiments-Calculator/
 Ethereum:0xE25926d3Df559016eA45552780Eb84c0430cBf97
 <br>
 <img src='https://github.com/Developers13/Physics-Experiments-Calculator/blob/main/1717301742745.jpg' width=50 height=70>
+
 
 
 

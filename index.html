@@ -25,6 +25,7 @@
 
     <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
     
+    <script type='text/JavaScript' src="assets/js/performance.js" defer></script>
     <script type='text/JavaScript' src="assets/js/script.v1.js" defer></script>
     <noscript>
         This web page needs JavaScript (along with PyScript) to be enabled.
@@ -182,6 +183,7 @@
             Please wait until PyScript is fully loaded. Once ready, the box will turn Green.<br/>
             请等待 PyScript 完全加载。如果此状态持续过久，请检查网络设置。
           </div>
+          <div class="" id="resource-load-status"></div>
         </div>
       </div>
 
@@ -225,9 +227,16 @@
     </footer>
 
     <div id="time_bar" class="fixed bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 w-0 transition-all duration-300 z-50"></div>
-   
+    
+    <!-- 资源加载状态显示 -->
+    <div id="resource-load-status" class="fixed bottom-4 left-4 bg-slate-900/90 text-slate-100 px-3 py-2 rounded-lg text-sm font-mono backdrop-blur-sm border border-slate-700/50 shadow-lg z-50 max-w-xs">
+        正在初始化资源加载监控...
+    </div>
+    
   </body>
 </html>
+
+
 
 
 
