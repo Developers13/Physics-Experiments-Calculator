@@ -5,44 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--For development use-->
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
-    <link rel="stylesheet" href="./assets/css/output.css" />
+    <link rel="stylesheet" href="./assets/css/output.css"/>
     <script type="text/javascript">
+        // Donation method selection logic
         document.addEventListener('DOMContentLoaded', function() {
             const methodForm = document.getElementById('method');
             const envelopImg = document.getElementById('envelop-img');
             const ethAddr = document.getElementById('eth-addr');
+            const radioGroup = document.querySelectorAll('input[name="donation"]');
 
-            methodForm.addEventListener('change', function(event) {
-                const selectedMethod = methodForm.elements['donation'].value;
-                if (selectedMethod === 'alipay') {
-                    envelopImg.classList.remove('hidden');
-                    ethAddr.classList.add('hidden');
-                } else if (selectedMethod === 'eth') {
-                    envelopImg.classList.add('hidden');
-                    ethAddr.classList.remove('hidden');
-                    ethAddr.innerHTML = '<p class="text-center text-gray-700 dark:text-gray-300">Ethereum Address: 0xE25926d3Df559016eA45552780Eb84c0430cBf97</p>';
-                }
-            });
+            radioGroup.forEach(radio=>{
+                radio.addEventListener('change', function() {
+                    if (this.value === 'alipay') {
+                        envelopImg.classList.remove('hidden');
+                        ethAddr.classList.add('hidden');
+                    } else if (this.value === 'eth') {
+                        envelopImg.classList.add('hidden');
+                        ethAddr.classList.remove('hidden');
+                    }
+                });
+            })
         });
     </script>
     <title>Donation</title>
 </head>
 <body>
-    <div id="main" class="bg-slate-50 dark:bg-black flex items-center justify-center">
-        <form id="method">
-        <div class="block"><label for="donation" class="has-[:checked]:bg-indigo-50 has-[:checked]:text-indigo-900 has-[:checked]:ring-indigo-200" id="donation">
-            <img src="assets/images/alipay-svgrepo-com.svg" class="bg-indigo-100" alt="alipay" width="20" height="20" >Alipay
-            <input type="radio" class="checked:border-indigo-300" name="donation" value="alipay" checked>
-            <img src="assets/images/ethereum-svgrepo-com.svg" class="bg-indigo-100" alt="eth" width="20" height="20">Ethereum
-            <input type="radio" class="checked:border-indigo-300 " name="donation" value="eth">
-        </label>
-        </div>
-        </form>
-        <div class="" id="envelop-img">
-            <img src="assets/images/1717301742745.jpg" width="300" height="100">
-        </div>
-        <div class="hidden" id="eth-addr"></div>
+    <div id="main" class="bg-slate-50 dark:bg-black min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full space-y-6">
+            <fieldset>
+                <legend class="text-lg font-medium text-gray-900 dark:text-white mb-4">选择捐赠方式 / Choose Donation Method</legend>
+                <div id="method" class="space-y-4">
+                    <label for="alipay" class="grid grid-cols-[24px_1fr_auto] items-center gap-6 rounded-lg p-4 ring-1 ring-transparent hover:bg-gray-100 has-checked:bg-indigo-50 has-checked:text-indigo-800 has-checked:ring-indigo-200 dark:hover:bg-white/5 dark:has-checked:bg-indigo-950 dark:has-checked:text-indigo-200 dark:has-checked:ring-indigo-900">
+                        <img src="./assets/images/alipay.svg">
+                        Alipay
+                        <input type="radio" name="donation" id="alipay" value="alipay" class="box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding ring-1 ring-gray-950/20 outline-none checked:border-indigo-500 checked:ring-indigo-500" checked>
+                    </label>
+                    <label for="eth" class="grid grid-cols-[24px_1fr_auto] items-center gap-6 rounded-lg p-4 ring-1 ring-transparent hover:bg-gray-100 has-checked:bg-indigo-50 has-checked:text-indigo-800 has-checked:ring-indigo-200 dark:hover:bg-white/5 dark:has-checked:bg-indigo-950 dark:has-checked:text-indigo-200 dark:has-checked:ring-indigo-900">
+                        <img src="./assets/images/ethereum.svg">
+                        Ethereum
+                        <input type="radio" name="donation" id="eth" value="eth" class="box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding ring-1 ring-gray-950/20 outline-none checked:border-indigo-500 checked:ring-indigo-500">
+            </fieldset>
+            
+            
+
+            <!-- 捐赠信息显示区域 -->
+            <div class="space-y-4">
+                <!-- 支付宝二维码 -->
+                <div id="envelop-img" class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="text-center">
+                        
+                        <img src="assets/images/1717301742745.jpg" alt="支付宝二维码" class="mx-auto rounded-lg shadow-sm w-48 h-48 object-cover">
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">扫描上方二维码进行捐赠</p>
+                    </div>
+                </div>
+
+                <!-- 以太坊地址 -->
+                <div id="eth-addr" class="hidden bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="text-center">
+
+                        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+                            <p class="font-mono text-sm text-gray-900 dark:text-white break-all">0xE25926d3Df559016eA45552780Eb84c0430cBf97</p>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">复制地址进行转账</p>
+                    </div>
+                </div>
+            </div>
+
+            
         </div>
     </div>
 </body>
 </html>
+
+

@@ -45,7 +45,6 @@ function initThemeToggle() {
 
 // 页面加载完成后初始化所有功能
 function initAll() {
-    initResourceMonitor();
     initThemeToggle();
 }
 
@@ -55,7 +54,9 @@ if (document.readyState === 'loading') {
 } else {
     initAll();
 }
-
+addEventListener('mpy:progress', ({detail})=>{
+  document.getElementById("resource-load-status").textContent=detail;
+});
 const p = document.getElementById("prompt");
 const ph = document.querySelector("#phead");
 const pc = document.querySelector("#pcontent");
