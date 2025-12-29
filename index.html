@@ -7,7 +7,7 @@
     <meta name="keywords" content="Physics,Data Science,Physics Experiments,College,Calculator,大学物理,物理实验,八步法,计算器,大物实验,大物实验报告,大学物理实验报告," />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--Clarity Track-->
-    <script type="text/javascript">
+    <script type="text/javascript" async>
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -25,7 +25,6 @@
 
     <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
     
-    <script type='text/JavaScript' src="assets/js/performance.js" defer></script>
     <script type='text/JavaScript' src="assets/js/script.v1.js" defer></script>
     <noscript>
         This web page needs JavaScript (along with PyScript) to be enabled.
@@ -45,7 +44,7 @@
         @media (prefers-color-scheme: dark) {
             ::-webkit-scrollbar-thumb { background: #475569; }
         } 
-    
+      
       </style>
   </head>
   
@@ -133,7 +132,7 @@
               <label for="input" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                 Data (space separated) / 数据 (空格分割)
               </label>
-              <textarea id="input" required rows="4" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 font-mono transition-colors placeholder-gray-400" placeholder="1.23 1.25 1.24 1.22..."></textarea>
+              <textarea id="input" required rows="4" class="block w-full rounded-lg border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 font-mono transition-colors placeholder-gray-400 required:border-pink-500" placeholder="1.23 1.25 1.24 1.22..."></textarea>
             </div>
 
             <div id="checkbox" class="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-200 dark:border-slate-600">
@@ -183,7 +182,7 @@
             Please wait until PyScript is fully loaded. Once ready, the box will turn Green.<br/>
             请等待 PyScript 完全加载。如果此状态持续过久，请检查网络设置。
           </div>
-          <div class="" id="resource-load-status"></div>
+          <div class="text-sm font-mono" id="resource-load-status">Starting...</div>
         </div>
       </div>
 
