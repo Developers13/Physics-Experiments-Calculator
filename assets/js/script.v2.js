@@ -1,4 +1,6 @@
-
+addEventListener('py:progress', ({detail}) => {
+            document.getElementById('progress').textContent = detail;
+        });
 addEventListener("py:ready",function(){
     const submit=document.getElementById("submit");
     const input=document.querySelector("#input");
