@@ -1,7 +1,7 @@
 import math
 from copy import deepcopy
 
-tp1 = (0, 0, 0, 1.32, 1.20, 1.14, 1.11, 1.09, 1.08, 1.07, 1.06, 1.05, 1.04, 1.03, 1.02, 1.00)
+tp1 = (0, 0, 1.84, 1.32, 1.20, 1.14, 1.11, 1.09, 1.08, 1.07, 1.06, 1.05, 1.04, 1.03, 1.02, 1.00)
 tp2 = (0, 0, 0, 4.30, 3.18, 2.78, 2.57, 2.45, 2.36, 2.31, 2.26, 2.23, 2.13, 2.09, 2.04, 1.96)
 
 
@@ -176,7 +176,7 @@ class Dataset:
                 self.dispose_log[epoch]["reciprocal"] = [round((1/x),5) if x!=0 else math.inf for x in self.dispose_log[epoch]["data"]] if self.require_reciprocal else None
 
     def uncertainty_A(self, data):
-        return self.standard_error(data) / math.sqrt(len(data))
+        return self.standard_error(data) / math.sqrt(len(data)-1)
     
     def uncertainty_B(self):
         if self.distribution == "Gaussian":
