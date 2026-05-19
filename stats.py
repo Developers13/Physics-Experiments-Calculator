@@ -10,7 +10,7 @@ def mean(data):
     """Compute arithmetic mean of a list of numbers."""
     if not data:
         raise ValueError("mean() arg is an empty sequence")
-    return round(float(sum(map(float, data))) / len(data) ,5)
+    return round(float(sum(map(float, data))) / len(data) ,8)
 
 def avg_deviation(data:list) -> list:
     """
